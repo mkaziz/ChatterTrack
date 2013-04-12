@@ -5,10 +5,11 @@ import json
 
 
 def createError(msg):
-  response_data = { "error" : -1, "message" : msg }
-  return HttpResponseBadRequest(content=json.dumps(response_data), content_type="application/json")
+    response_data = { "error" : -1, "message" : msg }
+    return HttpResponseBadRequest(content=json.dumps(response_data), content_type="application/json")
   
   
 def index(request):
-  response_data = { "error" : -1, "message" : "test" }
-  return HttpResponse(content=json.dumps(response_data), content_type="application/json")
+    response_data = { "error" : -1, "message" : "test" }
+    return render(request, "index.html")
+  #return HttpResponse(content=json.dumps(response_data), content_type="application/json")
