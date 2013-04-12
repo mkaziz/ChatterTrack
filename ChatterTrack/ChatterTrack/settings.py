@@ -1,5 +1,7 @@
+import os
 
 # Django settings for ChatterTrack project.
+PROJECT_PATH = os.path.join(os.path.dirname(__file__), '..').replace('\\','/')
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -126,7 +128,7 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     'south',
-    'ct'
+    'ct',
 )
 
 # A sample logging configuration. The only tangible logging
