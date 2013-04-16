@@ -1,0 +1,32 @@
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Open Sans'), local('OpenSans'), url(http://themes.googleusercontent.com/static/fonts/opensans/v6/cJZKeOuBrn4kERxqtaUH3bO3LdcAZYWl9Si6vvxL-qU.woff) format('woff');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Open Sans Bold'), local('OpenSans-Bold'), url(http://themes.googleusercontent.com/static/fonts/opensans/v6/k3k702ZOKiLJc3WVjuplzKRDOzjiPcYnFooOUGCOsRk.woff) format('woff');
+}
+.inputbox {
+	display: inline-block; font-size: 1.5em; padding: 0.6em 1em; box-shadow: 0 2px 5px -2px #111111, 0 2px 5px 0 rgba(255, 255, 255, 0.3) inset;
+	  border: 1px solid #995309;
+    border-radius: 4px 4px 4px 4px; vertical-align: middle;
+}
+.arc path {
+  stroke: #fff;
+}
+.viz {
+	font-size: 8px;
+}
+.viz, .viz2 {
+	float: left; width: 500px; height:500px;
+}
+.people {
+  margin-right: 1%;
+}
+#vizbox {
+  display: none;
+}
