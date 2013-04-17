@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title>test</title>    
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="asset/css.css">
+    <link rel="stylesheet" href="asset/main.css">
+    
+   
+</head>
+<body>
+        <div class="container">
+            <header class="site-header cf" role="banner">
+                <div class="site-logo">
+                    Chatter<span ><img src="asset/twitter.png" width="45" height="45" /></span><span style="color: #D9750B;">Track<span>
+                </div>
+                <ul class="site-nav inline-block-list">
+                    <!--<li><a href="https://github.com/h5bp/html5-boilerplate" data-ga-category="Outbound links" data-ga-action="Nav click" data-ga-label="Source code">Source code</a></li>
+                    <li><a href="https://github.com/h5bp/html5-boilerplate/blob/v4.2.0/doc/TOC.md" data-ga-category="Outbound links" data-ga-action="Nav click" data-ga-label="Docs">Docs</a></li>-->
+                    
+                </ul>
+            </header><!-- end site-header -->
+
+            <div class="site-promo">
+                <h1>Listen to their<br />twitter followers.</h1>
+                <!--<p class="description">HTML5 Boilerplate helps you build <strong>fast</strong>, <strong>robust</strong>, and <strong>adaptable</strong>
+ web apps or sites. Kick-start your project with the combined knowledge 
+and effort of 100s of developers, all in one little package.</p>-->
+
+                <!--<div class="cta-option">
+                    <input type="text" value="" placeholder="Twitter handle @" class="inputbox" />
+                    <a class="btn-download" href="#">
+                        <strong>Visualize</strong>
+                    </a>
+                   
+                </div>-->
+                <a class="people" href="#vizbox"><img src="image/1.jpg" style="border-radius: 100px;" width="200" height="200" border="0" /></a>
+                <a class="people" href="#vizbox"><img src="image/2.jpg" style="border-radius: 100px;" width="200" height="200" border="0" /></a>
+                <a class="people" href="#vizbox"><img src="image/3.jpg" style="border-radius: 100px;" width="200" height="200" border="0" /></a>
+                </div><!-- end site-promo -->
+        </div>
+        
+
+        <div class="site-content" id="vizbox">
+            <iframe src="asset/viz1.html" width="500" height="500" frameborder="0">
+
+
+               
+
+              
+            </iframe>
+            <iframe src="asset/viz2.html" width="500" height="500" frameborder="0" style="overflow:hidden;">
+
+
+               
+
+              
+            </iframe>
+        </div>
+
+        <footer class="site-footer" role="contentinfo">
+            <div class="container">
+                A project from Northwestern University by
+                Bryan Lowry, Khalid Aziz, and Liu Liu,
+               .
+            </div>
+        </footer><!-- end site-footer -->
+
+  
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script src="asset/circle.js"></script>
+        <script src="asset/html5.js"></script>
+        <script>
+         
+            $(document).ready(function($) {
+                $('.people').click(function(event){   
+
+                    event.preventDefault();
+                    $('#vizbox').fadeIn();
+                    $('html,body').delay(500).animate({scrollTop:$(this.hash).offset().top}, 500);
+                });
+            });
+        </script>
+
+       
+    
+
+</body>
+</html>
