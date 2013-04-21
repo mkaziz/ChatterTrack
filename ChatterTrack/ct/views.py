@@ -13,3 +13,6 @@ def index(request):
     response_data = { "error" : -1, "message" : "test" }
     return render(request, "index.html")
   #return HttpResponse(content=json.dumps(response_data), content_type="application/json")
+
+def twitter(request):
+    return createError("it works!")

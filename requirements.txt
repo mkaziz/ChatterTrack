@@ -1,4 +1,8 @@
 Django==1.5.1
+Fabric==1.6.0
 South==0.7.6
 argparse==1.2.1
+paramiko==1.10.1
+pycrypto==2.6
+twitter==1.9.2
 wsgiref==0.1.2
