@@ -8,20 +8,20 @@
     <meta name="viewport" content="width=device-width">
     
     <!-- CSS -->
-    <link rel="stylesheet" href="{{ STATIC_URL }}ct/css/css.css">
-    <link rel="stylesheet" href="{{ STATIC_URL }}ct/css/main.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}ct/asset/css.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}ct/asset/main.css">
     <!-- JS -->
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}ct/js/ct.js"></script>        
-    <script src="{{ STATIC_URL }}asset/circle.js"></script>
-    <script src="{{ STATIC_URL }}asset/html5.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}ct/asset/ct.js"></script>        
+    <script src="{{ STATIC_URL }}ct/asset/circle.js"></script>
+    <script src="{{ STATIC_URL }}ct/asset/html5.js"></script>
 {% endblock %}
 
 {% block content %}
     <div class="container">
         <header class="site-header cf" role="banner">
             <div class="site-logo">
-                Chatter<span ><img src="asset/twitter.png" width="45" height="45" /></span><span style="color: #D9750B;">Track<span>
+                Chatter<span ><img src="{{ STATIC_URL }}ct/asset/twitter.png" width="45" height="45" /></span><span style="color: #D9750B;">Track<span>
             </div>
             <ul class="site-nav inline-block-list">
                 <!--<li><a href="https://github.com/h5bp/html5-boilerplate" data-ga-category="Outbound links" data-ga-action="Nav click" data-ga-label="Source code">Source code</a></li>
@@ -42,16 +42,16 @@
                 </a>
                
             </div>-->
-            <a class="people" href="#vizbox"><img src="image/1.jpg" style="border-radius: 100px;" width="200" height="200" border="0" /></a>
-            <a class="people" href="#vizbox"><img src="image/2.jpg" style="border-radius: 100px;" width="200" height="200" border="0" /></a>
-            <a class="people" href="#vizbox"><img src="image/3.jpg" style="border-radius: 100px;" width="200" height="200" border="0" /></a>
+            <a class="people" href="#vizbox"><img src="{{ STATIC_URL }}ct/image/1.jpg" style="border-radius: 100px;" width="200" height="200" border="0" /></a>
+            <a class="people" href="#vizbox"><img src="{{ STATIC_URL }}ct/image/2.jpg" style="border-radius: 100px;" width="200" height="200" border="0" /></a>
+            <a class="people" href="#vizbox"><img src="{{ STATIC_URL }}ct/image/3.jpg" style="border-radius: 100px;" width="200" height="200" border="0" /></a>
         </div><!-- end site-promo -->
     </div>
         
 
     <div class="site-content" id="vizbox">
-        <iframe src="asset/viz1.html" width="500" height="500" frameborder="0"></iframe>
-        <iframe src="asset/viz2.html" width="500" height="500" frameborder="0" style="overflow:hidden;"></iframe>
+        <iframe src="{{ STATIC_URL }}ct/asset/viz1.html" width="500" height="500" frameborder="0"></iframe>
+        <iframe src="{{ STATIC_URL }}ct/asset/viz2.html" width="500" height="500" frameborder="0" style="overflow:hidden;"></iframe>
     </div>
 {% endblock %}
 

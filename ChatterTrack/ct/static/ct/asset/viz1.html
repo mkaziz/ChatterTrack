@@ -21,7 +21,7 @@ var width = 400,
             .attr("height", height).append("g")
             .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
-        d3.csv("data.csv", function(error, data) {
+        d3.csv("{{ STATIC_URL }}ct/asset/data.csv", function(error, data) {
 
           data.forEach(function(d) {
             d.population = +d.population;
