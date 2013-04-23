@@ -67,14 +67,19 @@ def twitter_authenticated(request):
         raise Exception("Invalid response from Twitter.")
 
     access_token = dict(cgi.parse_qsl(content))
-
+    
+    user = None
+    p = None
     try:
         user = User.objects.get(username=access_token['screen_name'])
+        n = user.username
+        p = user.password
     except User.DoesNotExist:
-        user = User.objects.create_user(access_token['screen_name'],
-            '%s@twitter.com' % access_token['screen_name'],
-            access_token['oauth_token_secret'])
-
+        user = User.objects.create_user(username=access_token['screen_name'], password=access_token['oauth_token_secret'])
+        user.set_password(access_token['oauth_token_secret'])
+        user.save()
+        n = user.username
+        p = user.password
         # Save our permanent token and secret for later.
         profile = Profile()
         profile.user = user
@@ -82,8 +87,8 @@ def twitter_authenticated(request):
         profile.oauth_secret = access_token['oauth_token_secret']
         profile.save()
 
-    user = authenticate(username=access_token['screen_name'],
-        password=access_token['oauth_token_secret'])
+    user = authenticate(username=access_token['screen_name'], password=access_token['oauth_token_secret'])
+    
     auth_login(request, user)
 
     return HttpResponseRedirect('/ct/')
