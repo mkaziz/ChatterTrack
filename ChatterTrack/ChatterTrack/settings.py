@@ -6,6 +6,10 @@ PROJECT_PATH = os.path.join(os.path.dirname(__file__), '..').replace('\\','/')
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
+# Twitter Settings
+TWITTER_KEY = "b4G5PKMYYFsFLIrrTsbA"
+TWITTER_SECRET = "pSM2rv4TJDnC1pJKIZeU7W2mR3E3mOOuluZhnyn4"
+
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
