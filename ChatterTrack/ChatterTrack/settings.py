@@ -10,6 +10,12 @@ TEMPLATE_DEBUG = DEBUG
 TWITTER_KEY = "b4G5PKMYYFsFLIrrTsbA"
 TWITTER_SECRET = "pSM2rv4TJDnC1pJKIZeU7W2mR3E3mOOuluZhnyn4"
 
+# Celery startup and settings
+import djcelery
+djcelery.setup_loader()
+
+BROKER_URL = "amqp://guest:guest@localhost:5672//"
+
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
