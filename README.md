@@ -8,4 +8,7 @@ Bryan Lowry (Journalist)
 Liu Liu
 Khalid Aziz
 
+Requirements:
+Python (see requirements.txt for python packages required)
+RabbitMQ ("sudo apt-get install rabbitmq-server" on Ubuntu/Debian)
 
