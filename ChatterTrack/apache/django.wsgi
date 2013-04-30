@@ -1,5 +1,8 @@
 import os
 import sys
+import djcelery
+
+djcelery.setup_loader()
 
 path = os.path.join(os.path.dirname(__file__), "..")
 
