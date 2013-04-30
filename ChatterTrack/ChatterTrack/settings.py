@@ -140,6 +140,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
     'south',
     'ct',
+    'celery',
 )
 
 # A sample logging configuration. The only tangible logging
