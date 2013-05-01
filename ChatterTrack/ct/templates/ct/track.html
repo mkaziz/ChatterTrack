@@ -21,6 +21,7 @@
     {% endif %}
     
     <form action="" method="post">
+        {% csrf_token %}
         <div class="field">
             {{ form.twitter_handle.errors }}
             <label for="id_twitter_handle">Twitter Handle of the user you want to track:</label>

@@ -33,13 +33,14 @@ def login(request):
 
 @login_required(login_url='/ct/login/') 
 def track(request):
+    form = None
     if (request.method == "POST"):
-        form = ContactForm(request.POST)
+        form = TrackForm(request.POST)
         if form.is_valid():
             cd = form.cleaned_data
             return createError("form received")
-        else:
-            form = ContactForm()
+    else:
+        form = TrackForm()
     return render(request, "track.html", {'form' : form })
 
 def twitter_login(request):
