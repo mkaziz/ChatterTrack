@@ -5,14 +5,17 @@ from django.conf import settings
 from django.contrib.auth import authenticate, login as auth_login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from ct.models import Profile
+from ct.models import *
 from ct.forms import TrackForm
+from ct.tasks import track as track_task
 
 # python imports
 import json, requests, twitter, urlparse
 from urllib import quote, urlencode
 import oauth2 as oauth
 import cgi
+from datetime import datetime, timedelta
+from twitter import *
 
 # twitter api urls
 request_token_url = 'http://api.twitter.com/oauth/request_token'
@@ -33,13 +36,46 @@ def login(request):
 
 @login_required(login_url='/ct/login/') 
 def track(request):
+    form = None
     if (request.method == "POST"):
-        form = ContactForm(request.POST)
+        form = TrackForm(request.POST)
         if form.is_valid():
+            
             cd = form.cleaned_data
+            twitterHandle = cd["twitter_handle"]
+            
+            profile = None
+            #try:
+            profile = Profile.objects.get(user=request.user)
+            #catch:
+            #    pass
+            
+            twitterObj = Twitter(auth=OAuth(profile.oauth_token, profile.oauth_secret, settings.TWITTER_KEY, settings.TWITTER_SECRET))
+            twitterUser = twitterObj.users.show(screen_name=twitterHandle)
+            
+            tu = None
+            try:
+                tu = TrackedUser.objects.get(twitter_id=twitterUser["id_str"])
+                tu.track_until = datetime.now()+timedelta(seconds=20)
+                tu.save()
+            except TrackedUser.DoesNotExist:
+                tu = TrackedUser(twitter_id=twitterUser["id_str"], user=profile, track_until=datetime.now()+timedelta(seconds=20))
+                tu.save()
+            
+            tracking_info = {
+                "user" : {
+                    "oauth_token" : tu.user.oauth_token,
+                    "oauth_secret" : tu.user.oauth_secret
+                },
+                "track_until" : tu.track_until
+            }
+            
+            track_task.delay(tracking_info)
+            
+            #track_task(tracking_info
             return createError("form received")
-        else:
-            form = ContactForm()
+    else:
+        form = TrackForm()
     return render(request, "track.html", {'form' : form })
 
 def twitter_login(request):
