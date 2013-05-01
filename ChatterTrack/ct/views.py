@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate, login as auth_login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from ct.models import Profile
+from ct.forms import TrackForm
 
 # python imports
 import json, requests, twitter, urlparse
@@ -21,8 +22,7 @@ authenticate_url = 'http://api.twitter.com/oauth/authenticate'
 def createError(msg):
     response_data = { "error" : -1, "message" : msg }
     return HttpResponseBadRequest(content=json.dumps(response_data), content_type="application/json")
-  
-#@login_required(login_url='/ct/login/') 
+
 def index(request):
     response_data = { "error" : -1, "message" : "test" }
     return render(request, "index.html")
@@ -30,6 +30,17 @@ def index(request):
 
 def login(request):
     return render(request, "login.html")
+
+@login_required(login_url='/ct/login/') 
+def track(request):
+    if (request.method == "POST"):
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            return createError("form received")
+        else:
+            form = ContactForm()
+    return render(request, "track.html", {'form' : form })
 
 def twitter_login(request):
     
@@ -83,5 +94,6 @@ def twitter_authenticated(request):
     user = authenticate(username=access_token['screen_name'], password=access_token['oauth_token_secret'])
     
     auth_login(request, user)
+    request.session["screen_name"] = access_token['screen_name']
 
     return HttpResponseRedirect('/ct/')
