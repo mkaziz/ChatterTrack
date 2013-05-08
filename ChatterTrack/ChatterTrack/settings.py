@@ -14,6 +14,9 @@ TWITTER_SECRET = "pSM2rv4TJDnC1pJKIZeU7W2mR3E3mOOuluZhnyn4"
 import djcelery
 djcelery.setup_loader()
 
+# Datasift settings
+DATASIFT = { "username" : "lllxjy", "api_key" : "932b767d5e5cd13020356842353578f9" }
+
 BROKER_URL = "amqp://guest:guest@localhost:5672//"
 
 ADMINS = (
@@ -161,13 +164,25 @@ LOGGING = {
             'level': 'ERROR',
             'filters': ['require_debug_false'],
             'class': 'django.utils.log.AdminEmailHandler'
-        }
+        },
+        'ctlogfile': {
+            'level':'DEBUG',
+            'class':'logging.handlers.RotatingFileHandler',
+            'filename': PROJECT_PATH + "/ctlogfile.log",
+            'maxBytes': 5000000,
+            'backupCount': 2,
+            'formatter': 'standard',
+        },
     },
     'loggers': {
         'django.request': {
             'handlers': ['mail_admins'],
             'level': 'ERROR',
             'propagate': True,
+        },
+        'ct': {
+            'handlers': ['userlogfile'],
+            'level': 'DEBUG',
         },
     }
 }

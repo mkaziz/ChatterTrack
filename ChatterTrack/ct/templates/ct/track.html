@@ -32,6 +32,11 @@
             <label for="id_tracking_phrases">Comma-separated list of phrases to track:</label>
             {{ form.tracking_phrases }}
         </div>
+        <div class="field">
+            {{ form.time_to_track.errors }}
+            <label for="id_time_to_track">Enter the number of minutes to track them for:</label>
+            {{ form.time_to_track }}
+        </div>
         <input type="submit" value="Submit">
     </form>
     

@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, include, url
-from ct.views import index, twitter_login, login, twitter_authenticated, track
+from ct.views import index, twitter_login, login, twitter_authenticated, track, datasiftLog
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
@@ -19,5 +19,6 @@ urlpatterns = patterns('',
     url(r'^twitter_authenticated/$', twitter_authenticated),
     url(r'^login/$', login),
     url(r'^track/$', track),
+    url(r'^datasiftLog/$', datasiftLog),
     url(r'^$', index),
 )

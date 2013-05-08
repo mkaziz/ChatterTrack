@@ -5,6 +5,7 @@ from django.conf import settings
 from django.contrib.auth import authenticate, login as auth_login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 from ct.models import *
 from ct.forms import TrackForm
 from ct.tasks import track as track_task
@@ -16,6 +17,8 @@ import oauth2 as oauth
 import cgi
 from datetime import datetime, timedelta
 from twitter import *
+import random
+import datasift
 
 # twitter api urls
 request_token_url = 'http://api.twitter.com/oauth/request_token'
@@ -34,6 +37,11 @@ def index(request):
 def login(request):
     return render(request, "login.html")
 
+@csrf_exempt
+def datasiftLog(request):
+    response_data = { "success" : True }
+    return HttpResponse(content=json.dumps(response_data), content_type="application/json")
+
 @login_required(login_url='/ct/login/') 
 def track(request):
     form = None
@@ -43,36 +51,55 @@ def track(request):
             
             cd = form.cleaned_data
             twitterHandle = cd["twitter_handle"]
+            timeToTrack = cd["time_to_track"]
             
-            profile = None
-            #try:
             profile = Profile.objects.get(user=request.user)
-            #catch:
-            #    pass
             
             twitterObj = Twitter(auth=OAuth(profile.oauth_token, profile.oauth_secret, settings.TWITTER_KEY, settings.TWITTER_SECRET))
             twitterUser = twitterObj.users.show(screen_name=twitterHandle)
             
-            tu = None
-            try:
-                tu = TrackedUser.objects.get(twitter_id=twitterUser["id_str"])
-                tu.track_until = datetime.now()+timedelta(seconds=20)
-                tu.save()
-            except TrackedUser.DoesNotExist:
-                tu = TrackedUser(twitter_id=twitterUser["id_str"], user=profile, track_until=datetime.now()+timedelta(seconds=20))
-                tu.save()
+            listOfFollowers = twitterObj.followers.ids(screen_name=twitterHandle)["ids"]
+            #subsetOfFollowers = random.sample(listOfFollowers, (1000 if len(listOfFollowers) > 1000 else len(listOfFollowers)))
             
+            trackedUsersString = ""
+            
+            for follower in listOfFollowers:
+                    
+                try:
+                    tu = TrackedUser.objects.get(twitter_id=str(follower))
+                    tu.track_until = datetime.now()+timedelta(minutes=int(timeToTrack))
+                    tu.save()
+                except TrackedUser.DoesNotExist:
+                    tu = TrackedUser(twitter_id=str(follower), user=profile, track_until=datetime.now()+timedelta(minutes=int(timeToTrack)))
+                    tu.save()
+                trackedUsersString += tu.twitter_id + ","
+                
+            trackedUsersString = trackedUsersString[:-1] # get rid of last comma
+            
+            dsUser = datasift.User(settings.DATASIFT["username"], settings.DATASIFT["api_key"])
+            cdsl = "twitter.user.id in ["+trackedUsersString+"]"
+            streamDef = dsUser.create_definition(cdsl)
+            
+            pushDef = dsUser.create_push_definition()
+            pushDef.set_output_type("http")
+            pushDef.set_output_param("delivery_frequency", 60)
+            pushDef.set_output_param("max_size", 1000000)
+            pushDef.set_output_param("url", "http://ec2-54-244-189-248.us-west-2.compute.amazonaws.com/ct/datasiftLog/")
+            
+            sub = pushDef.subscribe_definition(streamDef, twitterHandle)
+            
+            """
+            user = User(settings.DATASIFT["username"], settings.DATASIFT["api_key"]
             tracking_info = {
                 "user" : {
-                    "oauth_token" : tu.user.oauth_token,
-                    "oauth_secret" : tu.user.oauth_secret
-                },
-                "track_until" : tu.track_until
+                    "oauth_token" : profile.oauth_token,
+                    "oauth_secret" : profile.oauth_secret
+                }
             }
             
             track_task.delay(tracking_info)
-            
-            #track_task(tracking_info
+            #track_task(tracking_info)
+            """
             return createError("form received")
     else:
         form = TrackForm()
