@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="asset/css.css">
     <link rel="stylesheet" href="asset/main.css">
-    
+   
    
 </head>
 <body>
@@ -16,72 +16,81 @@
                 <div class="site-logo">
                     Chatter<span ><img src="asset/twitter.png" width="45" height="45" /></span><span style="color: #D9750B;">Track<span>
                 </div>
-                <ul class="site-nav inline-block-list">
-                    <!--<li><a href="https://github.com/h5bp/html5-boilerplate" data-ga-category="Outbound links" data-ga-action="Nav click" data-ga-label="Source code">Source code</a></li>
-                    <li><a href="https://github.com/h5bp/html5-boilerplate/blob/v4.2.0/doc/TOC.md" data-ga-category="Outbound links" data-ga-action="Nav click" data-ga-label="Docs">Docs</a></li>-->
-                    
-                </ul>
+                
             </header><!-- end site-header -->
 
             <div class="site-promo">
                 <h1>Listen to their<br />twitter followers.</h1>
-                <!--<p class="description">HTML5 Boilerplate helps you build <strong>fast</strong>, <strong>robust</strong>, and <strong>adaptable</strong>
- web apps or sites. Kick-start your project with the combined knowledge 
-and effort of 100s of developers, all in one little package.</p>-->
-
-                <!--<div class="cta-option">
-                    <input type="text" value="" placeholder="Twitter handle @" class="inputbox" />
-                    <a class="btn-download" href="#">
-                        <strong>Visualize</strong>
-                    </a>
-                   
-                </div>-->
-                <a class="people" href="#vizbox"><img src="image/1.jpg" style="border-radius: 100px;" width="200" height="200" border="0" /></a>
-                <a class="people" href="#vizbox"><img src="image/2.jpg" style="border-radius: 100px;" width="200" height="200" border="0" /></a>
-                <a class="people" href="#vizbox"><img src="image/3.jpg" style="border-radius: 100px;" width="200" height="200" border="0" /></a>
-                </div><!-- end site-promo -->
+                
+                <div class="peoplebox" id="pp">
+                    <a class="people" href="#pp"><img src="image/elizabethwarren.jpg" style="border-radius: 100px;" width="80" height="80" border="0" />Elizabeth Warren</a>
+                    <a class="people" href="#pp"><img src="image/harryreid.jpg" style="border-radius: 100px;" width="80" height="80" border="0" />Harry Reid</a>
+                    <a class="people" href="#pp"><img src="image/johnboehner.jpg" style="border-radius: 100px;" width="80" height="80" border="0" />John Boehner</a>
+                    <a class="people" href="#pp"><img src="image/johnmaccain.jpg" style="border-radius: 100px;" width="80" height="80" border="0" />John Maccain</a>
+                    <a class="people" href="#pp"><img src="image/mikebloomberg.jpg" style="border-radius: 100px;" width="80" height="80" border="0" />Michael Bloomberg</a>
+                    <a class="people" href="#pp"><img src="image/nancypelosi.jpg" style="border-radius: 100px;" width="80" height="80" border="0" />Nancy Pelosi</a>
+                    <a class="people" href="#pp"><img src="image/obama.jpg" style="border-radius: 100px;" width="80" height="80" border="0" />Barack Obama</a>
+                    <a class="people" href="#pp"><img src="image/patquinn.jpg" style="border-radius: 100px;" width="80" height="80" border="0" />Pat Quinn</a>
+                    <a class="people" href="#pp"><img src="image/rahmemanuel.jpg" style="border-radius: 100px;" width="80" height="80" border="0" />Rahm Emanuel</a>
+                    <a class="people" href="#pp"><img src="image/randpaul.jpg" style="border-radius: 100px;" width="80" height="80" border="0" />Rand Paul</a>
+                </div>
+                
+            </div><!-- end site-promo -->
         </div>
         
-
+        <div class="clear"></div>
         <div class="site-content" id="vizbox">
-            <iframe src="asset/viz1.html" width="500" height="500" frameborder="0">
-
-
-               
-
-              
-            </iframe>
-            <iframe src="asset/viz2.html" width="500" height="500" frameborder="0" style="overflow:hidden;">
-
-
-               
-
-              
-            </iframe>
+            <div class="list">
+                <a href="#" class="firstone">Today</a>
+                <a href="#" class="normal">Last week</a>
+                <a href="#" class="normal">All time</a>
+            </div>
+            <div class="vizarea">
+                <iframe src="asset/viz3.html" width="400" height="350" frameborder="0" style="overflow:hidden;"></iframe>
+                <iframe src="asset/viz4.html" width="600" height="350" frameborder="0" style="overflow:hidden;"></iframe>     
+            </div>
+            <div class="icony">
+                <img class="i1" src="image/politics.svg" width="30" height="30" />
+                <img class="i2" src="image/arts.svg" width="30" height="30" />
+                <img class="i3" src="image/tech.svg" width="30" height="30" />
+                <img class="i4" class="sepa" src="image/sports.svg" width="30" height="30" />
+                
+                <img class="i5" src="image/gun.svg" width="30" height="30" />
+                <img class="i6" src="image/biz.svg" width="30" height="30" />
+                <img class="i7" src="image/gay.svg" width="30" height="30" />
+                <img class="i8" src="image/tree.svg" width="30" height="30" />
+                <img class="i9" src="image/edu.svg" width="30" height="30" />
+                <img class="i10" src="image/immi.svg" width="30" height="30" />
+                <img class="i11" src="image/lock.svg" width="30" height="30" />
+            </div>
+           
         </div>
 
-        <footer class="site-footer" role="contentinfo">
-            <div class="container">
+       <!-- <footer class="site-footer" role="contentinfo">
+            <div class="container"><br /><br />
                 A project from Northwestern University by
-                Bryan Lowry, Khalid Aziz, and Liu Liu,
-               .
+                Bryan Lowry, Khalid Aziz, and Liu Liu.
             </div>
-        </footer><!-- end site-footer -->
+        </footer>--><!-- end site-footer -->
 
   
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-        <script src="asset/circle.js"></script>
-        <script src="asset/html5.js"></script>
+        <script src="asset/jquery.js"></script>
+       
+        <!--<script src="asset/html5.js"></script>-->
         <script>
-         
-            $(document).ready(function($) {
-                $('.people').click(function(event){   
 
-                    event.preventDefault();
+            $(function() {
+                
+                $('.people').click(function(){ 
+                    $('.people').removeClass('highlight');  
+                    $(this).addClass('highlight');
                     $('#vizbox').fadeIn();
-                    $('html,body').delay(500).animate({scrollTop:$(this.hash).offset().top}, 500);
+                    $('html, body').delay(600).animate({scrollTop:$(this.hash).offset().top}, 500);
+                    return false;
                 });
             });
+           
+            
         </script>
 
        
