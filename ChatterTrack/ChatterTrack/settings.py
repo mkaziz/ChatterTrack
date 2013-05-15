@@ -15,7 +15,7 @@ import djcelery
 djcelery.setup_loader()
 
 # Datasift settings
-DATASIFT = { "username" : "lllxjy", "api_key" : "932b767d5e5cd13020356842353578f9" }
+DATASIFT = { "username" : "kaziz", "api_key" : "c834f6b6568bd2058553aa59ae3b2898" }
 
 BROKER_URL = "amqp://guest:guest@localhost:5672//"
 
@@ -158,6 +158,12 @@ LOGGING = {
         'require_debug_false': {
             '()': 'django.utils.log.RequireDebugFalse'
         }
+    },    
+    'formatters': {
+        'standard': {
+            'format' : "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
+            'datefmt' : "%d/%b/%Y %H:%M:%S"
+        },
     },
     'handlers': {
         'mail_admins': {
@@ -181,8 +187,9 @@ LOGGING = {
             'propagate': True,
         },
         'ct': {
-            'handlers': ['userlogfile'],
+            'handlers': ['ctlogfile'],
             'level': 'DEBUG',
+            'propagate': True,
         },
     }
 }

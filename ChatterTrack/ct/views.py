@@ -19,6 +19,11 @@ from datetime import datetime, timedelta
 from twitter import *
 import random
 import datasift
+from sys import stderr
+
+# logging
+import logging
+log = logging.getLogger('ct')
 
 # twitter api urls
 request_token_url = 'http://api.twitter.com/oauth/request_token'
@@ -39,8 +44,59 @@ def login(request):
 
 @csrf_exempt
 def datasiftLog(request):
+    
+    data = json.loads(request.raw_post_data)
+    
+    if data != json.loads("{}"):        
+        try:
+            stream = Stream.objects.get(stream_id=data["id"])
+            for interaction in data["interactions"]:
+                if "deleted" in interaction.keys():
+                    continue
+                
+                tweetText = u''.join(interaction["twitter"]["text"]).encode('utf-8')
+                log.debug(tweetText)
+                
+                headers = {'content-type': 'application/x-www-form-urlencoded'}
+                
+                knightCategories = requests.post("http://classify.knilab.com/classify/text/linear/",data="""input={text : '"""+tweetText+"""'}""",headers=headers).json()
+                
+                #log.debug(knightCategories)
+                
+                tweet = Tweet(stream=stream, text=tweetText, category=knightCategories[0][0], category_confidence=knightCategories[0][1])
+                
+                tweet.save()
+                
+        except Stream.DoesNotExist:
+            log.error("Received interactions for a stream that's not in the database! id: " + data["id"] + " hash: " + data["hash"])
+            pass
+        except Exception as e:
+            log.error(e)
+            log.error(data)
+            pass
+    
+    #log.debug(data["interactions"][0]["twitter"]["text"])
+    #log.debug(data)
     response_data = { "success" : True }
     return HttpResponse(content=json.dumps(response_data), content_type="application/json")
+
+def datasiftStop(request):
+    dsUser = datasift.User(settings.DATASIFT["username"], settings.DATASIFT["api_key"])
+    subscriptions = dsUser.list_push_subscriptions()
+    for subscription in subscriptions["subscriptions"]:
+        s = dsUser.get_push_subscription(subscription.get_id())
+        log.debug("deleting: " + str(subscription.get_id()))
+        s.delete()
+    
+    response_data = { "success" : True }
+    return HttpResponse(content=json.dumps(response_data), content_type="application/json")
+    
+def datasiftPushLog(request):
+    dsUser = datasift.User(settings.DATASIFT["username"], settings.DATASIFT["api_key"])
+    logs = dsUser.get_push_subscription_log()
+    #log.debug(logs)
+    return HttpResponse(content=json.dumps(logs), content_type="application/json")
+    
 
 @login_required(login_url='/ct/login/') 
 def track(request):
@@ -58,48 +114,57 @@ def track(request):
             twitterObj = Twitter(auth=OAuth(profile.oauth_token, profile.oauth_secret, settings.TWITTER_KEY, settings.TWITTER_SECRET))
             twitterUser = twitterObj.users.show(screen_name=twitterHandle)
             
-            listOfFollowers = twitterObj.followers.ids(screen_name=twitterHandle)["ids"]
-            #subsetOfFollowers = random.sample(listOfFollowers, (1000 if len(listOfFollowers) > 1000 else len(listOfFollowers)))
-            
             trackedUsersString = ""
+            count = 0
+            listOfFollowersObj = twitterObj.followers.ids(screen_name=twitterHandle)
             
-            for follower in listOfFollowers:
+            while True:
+                listOfFollowers = listOfFollowersObj["ids"]            
+            
+                for follower in listOfFollowers:
+                    trackedUsersString += str(follower) + ","
                     
-                try:
-                    tu = TrackedUser.objects.get(twitter_id=str(follower))
-                    tu.track_until = datetime.now()+timedelta(minutes=int(timeToTrack))
-                    tu.save()
-                except TrackedUser.DoesNotExist:
-                    tu = TrackedUser(twitter_id=str(follower), user=profile, track_until=datetime.now()+timedelta(minutes=int(timeToTrack)))
-                    tu.save()
-                trackedUsersString += tu.twitter_id + ","
-                
+                if listOfFollowersObj["next_cursor"] != 0 and count < 5: 
+                    listOfFollowersObj = twitterObj.followers.ids(screen_name=twitterHandle,cursor=listOfFollowersObj["next_cursor"])
+                    count = count + 1
+                else:
+                    break
+                    
+            #log.debug(len(trackedUsersString))
             trackedUsersString = trackedUsersString[:-1] # get rid of last comma
             
+            tu = None
+            
+            try:
+                tu = TrackedUser.objects.get(twitter_id=twitterUser["id_str"])
+                tu.track_until = datetime.now()+timedelta(minutes=int(timeToTrack))
+                tu.followers_list = trackedUsersString
+            except TrackedUser.DoesNotExist:
+                tu = TrackedUser(twitter_id=twitterUser["id_str"], user=profile, track_until=datetime.now()+timedelta(minutes=int(timeToTrack)), followers_list=trackedUsersString, screen_name=twitterUser["name"])
+                
+            tu.save()
+            
             dsUser = datasift.User(settings.DATASIFT["username"], settings.DATASIFT["api_key"])
-            cdsl = "twitter.user.id in ["+trackedUsersString+"]"
-            streamDef = dsUser.create_definition(cdsl)
+            csdl = "return { language.tag == \"en\" and twitter.user.id in ["+trackedUsersString+"] }"
+            #log.debug(csdl)
+            
+            streamDef = dsUser.create_definition(csdl)
             
             pushDef = dsUser.create_push_definition()
             pushDef.set_output_type("http")
-            pushDef.set_output_param("delivery_frequency", 60)
+            pushDef.set_output_param("delivery_frequency", 5)
             pushDef.set_output_param("max_size", 1000000)
+            pushDef.set_output_param("format", "json")
             pushDef.set_output_param("url", "http://ec2-54-244-189-248.us-west-2.compute.amazonaws.com/ct/datasiftLog/")
             
-            sub = pushDef.subscribe_definition(streamDef, twitterHandle)
+            subscription = pushDef.subscribe_definition(streamDef, twitterHandle)
             
-            """
-            user = User(settings.DATASIFT["username"], settings.DATASIFT["api_key"]
-            tracking_info = {
-                "user" : {
-                    "oauth_token" : profile.oauth_token,
-                    "oauth_secret" : profile.oauth_secret
-                }
-            }
+            sub = Stream(tracked_user=tu, stream_id=subscription.get_id(), stream_hash=subscription.get_hash(), name=subscription.get_name())
+            sub.save()
             
-            track_task.delay(tracking_info)
-            #track_task(tracking_info)
-            """
+            log.debug(subscription.get_status())
+            log.error(sub.name + " id: " + sub.stream_id + " hash: " + sub.stream_hash)
+            
             return createError("form received")
     else:
         form = TrackForm()
