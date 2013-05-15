@@ -42,6 +42,26 @@ def index(request):
 def login(request):
     return render(request, "login.html")
 
+def analyzeStream(request):
+    
+    streamId = request.GET.get("stream_id","")
+    
+    stream = None
+    try:
+        stream = Stream.objects.get(stream_id=streamId)
+    except Stream.DoesNotExist:
+        return createError("Stream: "+ streamId +" does not exist")
+        
+    tweets = Tweet.objects.filter(stream=stream)
+    
+    results = { "politics" : 0, "sports" : 0, "technology" : 0, "food" : 0, "business" : 0, "healthy-living" : 0, "arts" : 0, "entertainment" : 0, "science" : 0 }
+    
+    for tweet in tweets:
+        results[tweet.category] = results[tweet.category] + 1
+        
+    response_data = { "success" : True, "results" : results }
+    return HttpResponse(content=json.dumps(response_data), content_type="application/json")
+
 @csrf_exempt
 def datasiftLog(request):
     
