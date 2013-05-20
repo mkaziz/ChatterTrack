@@ -45,6 +45,7 @@ def login(request):
 def analyzeStream(request):
     
     streamId = request.GET.get("stream_id","")
+    categoryConfidence = request.GET.get("category_confidence",0.0)
     
     stream = None
     try:
@@ -54,10 +55,41 @@ def analyzeStream(request):
         
     tweets = Tweet.objects.filter(stream=stream)
     
-    results = { "politics" : 0, "sports" : 0, "technology" : 0, "food" : 0, "business" : 0, "healthy-living" : 0, "arts" : 0, "entertainment" : 0, "science" : 0 }
+    results = { "politics" : 0, "sports" : 0, "technology" : 0, "food" : 0, "business" : 0, "healthy-living" : 0, "arts" : 0, "entertainment" : 0, "science" : 0, "none" : 0 }
     
     for tweet in tweets:
-        results[tweet.category] = results[tweet.category] + 1
+        if tweet.category_confidence > float(categoryConfidence):
+            results[tweet.category] = results[tweet.category] + 1
+        else:
+            results["none"] = results["none"] + 1
+        
+    response_data = { "success" : True, "results" : results }
+    return HttpResponse(content=json.dumps(response_data), content_type="application/json")
+    
+def getStreamedTweets(request):
+    
+    streamId = request.GET.get("stream_id","")
+    category = request.GET.get("category","")
+    categoryConfidence = request.GET.get("category_confidence",0.0)
+    
+    stream = None
+    try:
+        stream = Stream.objects.get(stream_id=streamId)
+    except Stream.DoesNotExist:
+        return createError("Stream: "+ streamId +" does not exist")
+    
+    tweets = None
+    
+    if category!= "":
+        tweets = Tweet.objects.filter(stream=stream, category=category, category_confidence__gt=float(categoryConfidence))
+    else:
+        tweets = Tweet.objects.filter(stream=stream, category_confidence__gt=float(categoryConfidence))
+    
+    results = []
+    
+    for tweet in tweets:
+        
+        results.append( { "text" : tweet.text, "category" : tweet.category, "confidence" : tweet.category_confidence })
         
     response_data = { "success" : True, "results" : results }
     return HttpResponse(content=json.dumps(response_data), content_type="application/json")
