@@ -22,7 +22,7 @@
 }
 .people {
    width: 95px; height: 80px; display: block;
-  color: #fff; margin-bottom: 8px; float: left; font-size: 8px;
+  color: #fff; margin-bottom: 8px; float: left; font-size: 10px;
 }
 .people:hover, .people:focus {
   text-decoration: none;
@@ -49,34 +49,45 @@ iframe {
   clear:both;
 }
 .icony {
-  margin: 0 auto; width:1000px; text-align: left;
+  margin: 0 auto; width:800px; text-align: left;
 }
 img.i1 {
-  margin-left: 80px;
+  margin-left: 72px;
 }
 .i2 {
-  margin-left: 40px;
+  margin-left: 52px;
 }
 .i3 {
-  margin-left: 56px;
+  margin-left: 50px;
 }
 .i4 {
-  margin-left: 56px;
+  margin-left: 50px;
 }
 .i5 {
-  margin-left: 110px;
-}
-.i6, .i7, .i8, .i10 {
-  margin-left: 43px;
-}
-.i9 {
-  margin-left: 40px;
-}
-.i11 {
   margin-left: 42px;
 }
+.i6 {
+  margin-left: 50px;
+}
+.i7 {
+  margin-left: 50px;
+}
+.i8 {
+  margin-left: 50px;
+}
+.i9 {
+  margin-left: 46px;
+}
+.side {
+  float: left; text-align: left; width: 200px; font-size: 12px; 
+  margin: 0 auto; background-color: #EFEFFB; padding: 10px; border-radius: 4px; 
+  border: 1px solid #CED8F6;
+}
+.sidetitle {
+  display: inline-block; width: 200px; font-size: 16px; text-align: center;
+}
 #vizbox {
-  display: none;
+  display: none; width: 1100px; margin: 0 auto;
 }
 .container {
   font-size: 8px;
