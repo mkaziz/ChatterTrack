@@ -1,0 +1,14 @@
+{
+  "results": {
+    "science": 50,
+    "arts": 795,
+    "business": 111,
+    "health": 162,
+    "food": 132,
+    "politics": 180,
+    "entertainment": 37,
+    "technology": 157,
+    "sports": 90
+  },
+  "success": true
+}
