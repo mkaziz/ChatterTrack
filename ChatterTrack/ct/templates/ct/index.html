@@ -5,16 +5,20 @@
     <meta charset="utf-8">
     <title>test</title>    
     <meta name="viewport" content="width=device-width">
-    <link rel="stylesheet" href="asset/css.css">
-    <link rel="stylesheet" href="asset/main.css">
-   
+    <link rel="stylesheet" href="{{ STATIC_URL }}ct/asset/css.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}ct/asset/main.css"> 
+     
+    <script src="{{ STATIC_URL }}ct/asset/jquery.js"></script>
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script src="http://code.highcharts.com/modules/exporting.js"></script>
+    <script src="{{ STATIC_URL }}ct/asset/html5.js"></script>
    
 </head>
 <body>
         <div class="container">
             <header class="site-header cf" role="banner">
                 <div class="site-logo">
-                    Chatter<span ><img src="asset/twitter.png" width="45" height="45" /></span><span style="color: #D9750B;">Track<span>
+                    Chatter<span ><img src="{{ STATIC_URL }}ct/asset/twitter.png" width="45" height="45" /></span><span style="color: #D9750B;">Track<span>
                 </div>
                 
             </header><!-- end site-header -->
@@ -23,16 +27,16 @@
                 <h1>Listen to their<br />twitter followers.</h1>
                 
                 <div class="peoplebox" id="pp">
-                    <a class="people p1" href="#pp"><img src="image/elizabethwarren.jpg" style="border-radius: 100px;" width="80" height="80" border="0" />Elizabeth Warren</a>
-                    <a class="people p2" href="#pp"><img src="image/harryreid.jpg" style="border-radius: 100px;" width="80" height="80" border="0" />Harry Reid</a>
-                    <a class="people p3" href="#pp"><img src="image/johnboehner.jpg" style="border-radius: 100px;" width="80" height="80" border="0" />John Boehner</a>
-                    <a class="people p4" href="#pp"><img src="image/johnmaccain.jpg" style="border-radius: 100px;" width="80" height="80" border="0" />John Maccain</a>
-                    <a class="people p5" href="#pp"><img src="image/mikebloomberg.jpg" style="border-radius: 100px;" width="80" height="80" border="0" />Michael Bloomberg</a>
-                    <a class="people p6" href="#pp"><img src="image/nancypelosi.jpg" style="border-radius: 100px;" width="80" height="80" border="0" />Nancy Pelosi</a>
-                    <a class="people p7" href="#pp"><img src="image/obama.jpg" style="border-radius: 100px;" width="80" height="80" border="0" />Barack Obama</a>
-                    <a class="people p8" href="#pp"><img src="image/patquinn.jpg" style="border-radius: 100px;" width="80" height="80" border="0" />Pat Quinn</a>
-                    <a class="people p9" href="#pp"><img src="image/rahmemanuel.jpg" style="border-radius: 100px;" width="80" height="80" border="0" />Rahm Emanuel</a>
-                    <a class="people p10" href="#pp"><img src="image/randpaul.jpg" style="border-radius: 100px;" width="80" height="80" border="0" />Rand Paul</a>
+                    <a class="people p1" href="#pp"><img src="{{ STATIC_URL }}ct/image/elizabethwarren.jpg" style="border-radius: 100px;" width="80" height="80" border="0" />Elizabeth Warren</a>
+                    <a class="people p2" href="#pp"><img src="{{ STATIC_URL }}ct/image/harryreid.jpg" style="border-radius: 100px;" width="80" height="80" border="0" />Harry Reid</a>
+                    <a class="people p3" href="#pp"><img src="{{ STATIC_URL }}ct/image/johnboehner.jpg" style="border-radius: 100px;" width="80" height="80" border="0" />John Boehner</a>
+                    <a class="people p4" href="#pp"><img src="{{ STATIC_URL }}ct/image/johnmaccain.jpg" style="border-radius: 100px;" width="80" height="80" border="0" />John Maccain</a>
+                    <a class="people p5" href="#pp"><img src="{{ STATIC_URL }}ct/image/mikebloomberg.jpg" style="border-radius: 100px;" width="80" height="80" border="0" />Michael Bloomberg</a>
+                    <a class="people p6" href="#pp"><img src="{{ STATIC_URL }}ct/image/nancypelosi.jpg" style="border-radius: 100px;" width="80" height="80" border="0" />Nancy Pelosi</a>
+                    <a class="people p7" href="#pp"><img src="{{ STATIC_URL }}ct/image/obama.jpg" style="border-radius: 100px;" width="80" height="80" border="0" />Barack Obama</a>
+                    <a class="people p8" href="#pp"><img src="{{ STATIC_URL }}ct/image/patquinn.jpg" style="border-radius: 100px;" width="80" height="80" border="0" />Pat Quinn</a>
+                    <a class="people p9" href="#pp"><img src="{{ STATIC_URL }}ct/image/rahmemanuel.jpg" style="border-radius: 100px;" width="80" height="80" border="0" />Rahm Emanuel</a>
+                    <a class="people p10" href="#pp"><img src="{{ STATIC_URL }}ct/image/randpaul.jpg" style="border-radius: 100px;" width="80" height="80" border="0" />Rand Paul</a>
                 </div>
                 
             </div><!-- end site-promo -->
@@ -53,16 +57,16 @@
                 <iframe src="asset/viz4.html" width="600" height="350" frameborder="0" style="overflow:hidden;"></iframe>  -->   
             </div>
             <div class="icony">
-                <img class="i1" src="image/science.svg" width="30" height="30" />
-                <img class="i2" src="image/arts.svg" width="30" height="30" />
-                <img class="i3" src="image/biz.svg" width="30" height="30" />
-                <img class="i4" src="image/gay.svg" width="30" height="30" />
+                <img class="i1" src="{{ STATIC_URL }}ct/image/science.svg" width="30" height="30" />
+                <img class="i2" src="{{ STATIC_URL }}ct/image/arts.svg" width="30" height="30" />
+                <img class="i3" src="{{ STATIC_URL }}ct/image/biz.svg" width="30" height="30" />
+                <img class="i4" src="{{ STATIC_URL }}ct/image/gay.svg" width="30" height="30" />
                 
-                <img class="i5" src="image/food.svg" width="30" height="30" />
-                <img class="i6" src="image/politics.svg" width="30" height="30" />
-                <img class="i7" src="image/entertain.svg" width="30" height="30" />
-                <img class="i8" src="image/tech.svg" width="30" height="30" />
-                <img class="i9" src="image/sports.svg" width="30" height="30" />
+                <img class="i5" src="{{ STATIC_URL }}ct/image/food.svg" width="30" height="30" />
+                <img class="i6" src="{{ STATIC_URL }}ct/image/politics.svg" width="30" height="30" />
+                <img class="i7" src="{{ STATIC_URL }}ct/image/entertain.svg" width="30" height="30" />
+                <img class="i8" src="{{ STATIC_URL }}ct/image/tech.svg" width="30" height="30" />
+                <img class="i9" src="{{ STATIC_URL }}ct/image/sports.svg" width="30" height="30" />
                 
             </div><br /><br ><br />
             </div> 
@@ -71,143 +75,6 @@
             
            
         </div>
-
-      
-
-  
-        <script src="asset/jquery.js"></script>
-        <script src="http://code.highcharts.com/highcharts.js"></script>
-        <script src="http://code.highcharts.com/modules/exporting.js"></script>
-        <!--<script src="asset/html5.js"></script>-->
         
-        <script>
-
-            $(function() {
-                $('.people').click(function(){
-                    $('.people').removeClass('highlight');  
-                    $(this).addClass('highlight');
-                    $('#vizbox').fadeIn();
-                    $('html, body').delay(600).animate({scrollTop:$(this.hash).offset().top}, 500);
-                });
-                $('.p5').click(function(){ 
-                    $('#name').hide().html("Michael Bloomberg's followers are talking about:").fadeIn();
-                    $.getJSON('test2.json', function(data) {
-                      a = data.results.science;
-                      b = data.results.arts;
-                      c = data.results.business;
-                      d = data.results.health;
-                      e = data.results.food;
-                      f = data.results.politics;
-                      g = data.results.entertainment;
-                      h = data.results.technology;
-                      i = data.results.sports;
-
-                      $('#container').highcharts({
-                                chart: {
-                                    type: 'column'
-                                },
-                                legend: {
-                                    enabled: false
-                                },
-                                credits : {
-                                    enabled : false
-                                },
-                                exporting: {
-                                    enabled: false
-                                },
-                                title: {
-                                    text: null,  
-                                },
-                                subtitle: {
-                                    text: null,  
-                                },
-                                tooltip: {
-                                    enabled: false,
-                                },
-                                xAxis: {
-                                    categories: [
-                                        'Science', 'Arts', 'Business', 'Health', 'Food', 'Politics', 'Entertainment', 'Technology', 'Sports'
-                                    ]
-                                }, 
-                                yAxis: {
-                                    min: 0,
-                                    title: {
-                                        text: null
-                                    }
-                                },      
-                                series: [{
-                                    name: 'tweets',
-                                    data: [a, b, c, d, e, f, g, h, i] 
-                                }]
-                        });
-
-                    });
-                    return false;
-                });
-
-
-
-
-
-
-                $('.p9').click(function(){ 
-                    $('#name').hide().html("Rahm Emanuel's followers are talking about:").fadeIn();
-                    $.getJSON('test.json', function(data) {
-                      a = data.results.science;
-                      b = data.results.arts;
-                      c = data.results.business;
-                      d = data.results.health;
-                      e = data.results.food;
-                      f = data.results.politics;
-                      g = data.results.entertainment;
-                      h = data.results.technology;
-                      i = data.results.sports;
-
-                      $('#container').highcharts({
-                                chart: {
-                                    type: 'column'
-                                },
-                                legend: {
-                                    enabled: false
-                                },
-                                credits : {
-                                    enabled : false
-                                },
-                                exporting: {
-                                    enabled: false
-                                },
-                                title: {
-                                    text: null,  
-                                },
-                                subtitle: {
-                                    text: null,  
-                                },
-                                tooltip: {
-                                    enabled: false,
-                                },
-                                xAxis: {
-                                    categories: [
-                                        'Science', 'Arts', 'Business', 'Health', 'Food', 'Politics', 'Entertainment', 'Technology', 'Sports'
-                                    ]
-                                }, 
-                                yAxis: {
-                                    min: 0,
-                                    title: {
-                                        text: null
-                                    }
-                                },      
-                                series: [{
-                                    name: 'tweets',
-                                    data: [a, b, c, d, e, f, g, h, i] 
-                                }]
-                        });
-
-                    });
-                    return false;
-                });
-               
-
-            });          
-        </script>
 </body>
 </html>
