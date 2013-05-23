@@ -7,6 +7,10 @@
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="asset/css.css">
     <link rel="stylesheet" href="asset/main.css">
+    <script src="asset/jquery.js"></script>
+    <script src="asset/highcharts.js"></script>
+   
+    <script src="asset/html5.js"></script>
    
    
 </head>
@@ -14,7 +18,7 @@
         <div class="container">
             <header class="site-header cf" role="banner">
                 <div class="site-logo">
-                    Chatter<span ><img src="asset/twitter.png" width="45" height="45" /></span><span style="color: #D9750B;">Track<span>
+                    Chatter<span ><img src="image/twitter.png" width="45" height="45" /></span><span style="color: #D9750B;">Track<span>
                 </div>
                 
             </header><!-- end site-header -->
@@ -26,7 +30,7 @@
                     <a class="people p1" href="#pp"><img src="image/elizabethwarren.jpg" style="border-radius: 100px;" width="80" height="80" border="0" />Elizabeth Warren</a>
                     <a class="people p2" href="#pp"><img src="image/harryreid.jpg" style="border-radius: 100px;" width="80" height="80" border="0" />Harry Reid</a>
                     <a class="people p3" href="#pp"><img src="image/johnboehner.jpg" style="border-radius: 100px;" width="80" height="80" border="0" />John Boehner</a>
-                    <a class="people p4" href="#pp"><img src="image/johnmaccain.jpg" style="border-radius: 100px;" width="80" height="80" border="0" />John Maccain</a>
+                    <a class="people p4" href="#pp"><img src="image/johnmaccain.jpg" style="border-radius: 100px;" width="80" height="80" border="0" />John McCain</a>
                     <a class="people p5" href="#pp"><img src="image/mikebloomberg.jpg" style="border-radius: 100px;" width="80" height="80" border="0" />Michael Bloomberg</a>
                     <a class="people p6" href="#pp"><img src="image/nancypelosi.jpg" style="border-radius: 100px;" width="80" height="80" border="0" />Nancy Pelosi</a>
                     <a class="people p7" href="#pp"><img src="image/obama.jpg" style="border-radius: 100px;" width="80" height="80" border="0" />Barack Obama</a>
@@ -45,16 +49,16 @@
                 <a href="#" class="normal">Last week</a>
                 <a href="#" class="normal">All time</a>
             </div>-->
-            <div style="float: left; width: 800px; margin-left: 50px;">
+            <div class="box">
             <div class="vizarea">
                 <p id="name">Followers are talking about:</p>
-                <div id="container" style="width: 800px; height: 300px; margin: 0 auto"></div>
+                <div id="container"></div>
                 <!--
                 <iframe src="asset/viz4.html" width="600" height="350" frameborder="0" style="overflow:hidden;"></iframe>  -->   
             </div>
-            <div class="icony">
+            <!--<div class="icony">
                 <img class="i1" src="image/science.svg" width="30" height="30" />
-                <img class="i2" src="image/arts.svg" width="30" height="30" />
+                
                 <img class="i3" src="image/biz.svg" width="30" height="30" />
                 <img class="i4" src="image/gay.svg" width="30" height="30" />
                 
@@ -64,150 +68,22 @@
                 <img class="i8" src="image/tech.svg" width="30" height="30" />
                 <img class="i9" src="image/sports.svg" width="30" height="30" />
                 
-            </div><br /><br ><br />
+            </div>--><br /><br /><a href="#" class="compare btn-download">Compare with Rahm Emanuel</a><br ><br />
             </div> 
-            <div class="side"><span class="sidetitle">Sample Tweets</span><br /><br /><span><b>Technology: </b>I just ran 1.61 mi @ a 9'19'' pace with Nike+. http://t.co/j0zhorkDaD #nikeplus<br /><br /><b>Food: </b>@fatherjonathan can still make hot tea....<br /><br /><b>Sports: </b> @mullyhanley #Bulls win to tonight to force the #Heat to make one more trip to Chicago! #SeeRed<br /><br /><b>Politics: </b> The #Catholic Church is for #immigration reform:http://t.co/ytTw6WUwI7<br /><br /><b>Business: </b> @thecrisismag @CharlesMBlow But not unexpected/the more we talk about this/the less we can talk about JOBS/economy<br /><br /><b>Health: </b>Very excited to be offering 2 Yoga for Runners classes in #Elmhurst this summer.  Please join me, and invite your... http://t.co/KH5npmt7t8<br /><br /><b>Science: </b>#JWCC is also holding its STEM prorgam this summer for high school students. It stands for Science Technology Engineering and Math @KHQA<br /><br /><b>Arts: </b>Iranian Artist Paints Large, Playful Murals On The Sides Of Buildings |... http://t.co/wzsgpRLifK<br /><br /><b>Entertainment: </b>I feel bad for JR Smith, feel like he is giving max effort it's just not happening for him. It's more than just him @AnthonyMSG #NYK</span>
+            <div class="side">
             </div>
             
            
         </div>
 
+        <div class="container2 site-content">
+        </div>
+
       
 
   
-        <script src="asset/jquery.js"></script>
-        <script src="http://code.highcharts.com/highcharts.js"></script>
-        <script src="http://code.highcharts.com/modules/exporting.js"></script>
-        <!--<script src="asset/html5.js"></script>-->
         
-        <script>
-
-            $(function() {
-                $('.people').click(function(){
-                    $('.people').removeClass('highlight');  
-                    $(this).addClass('highlight');
-                    $('#vizbox').fadeIn();
-                    $('html, body').delay(600).animate({scrollTop:$(this.hash).offset().top}, 500);
-                });
-                $('.p5').click(function(){ 
-                    $('#name').hide().html("Michael Bloomberg's followers are talking about:").fadeIn();
-                    $.getJSON('test2.json', function(data) {
-                      a = data.results.science;
-                      b = data.results.arts;
-                      c = data.results.business;
-                      d = data.results.health;
-                      e = data.results.food;
-                      f = data.results.politics;
-                      g = data.results.entertainment;
-                      h = data.results.technology;
-                      i = data.results.sports;
-
-                      $('#container').highcharts({
-                                chart: {
-                                    type: 'column'
-                                },
-                                legend: {
-                                    enabled: false
-                                },
-                                credits : {
-                                    enabled : false
-                                },
-                                exporting: {
-                                    enabled: false
-                                },
-                                title: {
-                                    text: null,  
-                                },
-                                subtitle: {
-                                    text: null,  
-                                },
-                                tooltip: {
-                                    enabled: false,
-                                },
-                                xAxis: {
-                                    categories: [
-                                        'Science', 'Arts', 'Business', 'Health', 'Food', 'Politics', 'Entertainment', 'Technology', 'Sports'
-                                    ]
-                                }, 
-                                yAxis: {
-                                    min: 0,
-                                    title: {
-                                        text: null
-                                    }
-                                },      
-                                series: [{
-                                    name: 'tweets',
-                                    data: [a, b, c, d, e, f, g, h, i] 
-                                }]
-                        });
-
-                    });
-                    return false;
-                });
-
-
-
-
-
-
-                $('.p9').click(function(){ 
-                    $('#name').hide().html("Rahm Emanuel's followers are talking about:").fadeIn();
-                    $.getJSON('test.json', function(data) {
-                      a = data.results.science;
-                      b = data.results.arts;
-                      c = data.results.business;
-                      d = data.results.health;
-                      e = data.results.food;
-                      f = data.results.politics;
-                      g = data.results.entertainment;
-                      h = data.results.technology;
-                      i = data.results.sports;
-
-                      $('#container').highcharts({
-                                chart: {
-                                    type: 'column'
-                                },
-                                legend: {
-                                    enabled: false
-                                },
-                                credits : {
-                                    enabled : false
-                                },
-                                exporting: {
-                                    enabled: false
-                                },
-                                title: {
-                                    text: null,  
-                                },
-                                subtitle: {
-                                    text: null,  
-                                },
-                                tooltip: {
-                                    enabled: false,
-                                },
-                                xAxis: {
-                                    categories: [
-                                        'Science', 'Arts', 'Business', 'Health', 'Food', 'Politics', 'Entertainment', 'Technology', 'Sports'
-                                    ]
-                                }, 
-                                yAxis: {
-                                    min: 0,
-                                    title: {
-                                        text: null
-                                    }
-                                },      
-                                series: [{
-                                    name: 'tweets',
-                                    data: [a, b, c, d, e, f, g, h, i] 
-                                }]
-                        });
-
-                    });
-                    return false;
-                });
-               
-
-            });          
-        </script>
+        
+       
 </body>
 </html>

@@ -55,28 +55,28 @@ img.i1 {
   margin-left: 72px;
 }
 .i2 {
-  margin-left: 52px;
+  margin-left: 54px;
 }
 .i3 {
-  margin-left: 50px;
+  margin-left: 58px;
 }
 .i4 {
-  margin-left: 50px;
+  margin-left: 64px;
 }
 .i5 {
-  margin-left: 42px;
+  margin-left: 54px;
 }
 .i6 {
-  margin-left: 50px;
+  margin-left: 64px;
 }
 .i7 {
-  margin-left: 50px;
+  margin-left: 62px;
 }
 .i8 {
   margin-left: 50px;
 }
 .i9 {
-  margin-left: 46px;
+  margin-left: 68px;
 }
 .side {
   float: left; text-align: left; width: 200px; font-size: 12px; 
@@ -86,11 +86,20 @@ img.i1 {
 .sidetitle {
   display: inline-block; width: 200px; font-size: 16px; text-align: center;
 }
+.box {
+  float: left; width: 800px; margin-left: 50px;
+}
 #vizbox {
   display: none; width: 1100px; margin: 0 auto;
 }
 .container {
   font-size: 8px;
+};
+#container {
+  width: 800px; height: 300px; margin: 0 auto;
+}
+.container2 {
+  width: 1100px; height: 300px; margin: 0 auto; display: none;
 }
 .list {
   height: 60px; margin: 0 auto; text-align: center; width: 480px; margin-bottom: 20px; 
