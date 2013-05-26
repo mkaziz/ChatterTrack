@@ -47,7 +47,7 @@ ChatterTrack = {
             e = data.results.politics;
             f = data.results.entertainment;
             g = data.results.technology;
-            h = data.results.healthliving;
+            h = data.results["healthy-living"];
             i = a + b + c + d + e + f + g;
             ap = Math.round(100 * (a / i));
             bp = Math.round(100 * (b / i));
@@ -56,6 +56,7 @@ ChatterTrack = {
             ep = Math.round(100 * (e / i));
             fp = Math.round(100 * (f / i));
             gp = Math.round(100 * (g / i));
+            hp = Math.round(100 * (h / i));
 
             $('#container').highcharts({
                 chart: {
@@ -108,7 +109,7 @@ ChatterTrack = {
                 },     
                 series: [{
                     name: 'tweets',
-                    data: [ap, bp, cp, dp, ep, fp, gp, h] 
+                    data: [ap, bp, cp, dp, ep, fp, gp, hp] 
                 }]
             });
             //return false;
