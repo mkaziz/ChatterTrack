@@ -21,7 +21,7 @@ class TrackedUser(models.Model):
     
 class TrackedPhrase(models.Model):
     phrase = models.CharField(max_length=60)
-    user = models.ForeignKey(Profile)
+    user = models.ForeignKey(Profile) 
     tracking = models.BooleanField(default=True)
     
     def __unicode__(self):
@@ -32,6 +32,9 @@ class Stream(models.Model):
     stream_id = models.CharField(max_length=255)
     stream_hash = models.CharField(max_length=255)
     name = models.CharField(max_length=60)
+    start_time = models.DateTimeField(default=datetime.datetime.now(pytz.utc))
+    end_time = models.DateTimeField(default=None)
+    end_time.null = True 
     
     def __unicode__(self):
         return self.name

@@ -35,8 +35,12 @@
                     <td>{{stream.name}}</td>
                     <td>{{stream.count}}</td>
                     <td>{{stream.start_time}}</td>
-                    <td>{{stream.stop_time}}</td>
-                    <td>Delete</td>                
+                    <td>{{stream.end_time}}</td>
+                    {% if stream.end_time %}
+                        <td><button onclick="dashboard.ajax.deleteStream({{stream.stream_id}})">Delete</button></td>
+                    {% else %}
+                        <td><button onclick="dashboard.ajax.stopStream({{stream.stream_id}})">Stop</button></td>
+                    {% endif %}                    
                 </tr>
                 {% empty %}
                 </tr>
@@ -45,6 +49,7 @@
                 {% endfor %}
             </tbody>
         </table> 
+        <hr/>
     {% if form.errors %}
         <p style="color: red;">
             Please correct the error{{ form.errors|pluralize }} below.

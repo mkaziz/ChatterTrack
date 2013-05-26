@@ -65,7 +65,19 @@ def analyzeStream(request):
         
     response_data = { "success" : True, "results" : results }
     return HttpResponse(content=json.dumps(response_data), content_type="application/json")
+
+def deleteStream(request):
+    streamId = request.GET.get("stream_id","")
     
+    try:
+        stream = Stream.objects.get(stream_id=streamId)
+        stream.delete()
+    except Stream.DoesNotExist:
+        return createError("Stream: "+ streamId +" does not exist")
+        
+    response_data = { "success" : True }
+    return HttpResponse(content=json.dumps(response_data), content_type="application/json")
+        
 def getStreamedTweets(request):
     
     streamId = request.GET.get("stream_id","")
