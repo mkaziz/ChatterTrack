@@ -6,7 +6,8 @@
     <!-- CSS -->
     <!-- JS -->
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}ct/asset/track.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}ct/asset/dashboard.js"></script>
+    <link rel="stylesheet" href="{{ STATIC_URL }}ct/asset/dashboard.css"> 
 {% endblock %}
 
 {% block content %}
@@ -16,6 +17,34 @@
                 <span style="color: #D9750B;">Chatter<span ><img src="{{ STATIC_URL }}ct/asset/twitter.png" width="45" height="45" /></span><span style="color: #D9750B;">Track<span>
             </div>
         </header>
+        
+        <h2>Current Streams: </h2>
+        <table class="stream-table">
+            <thead>
+                <th>Stream Id</th>
+                <th>Stream Name</th>
+                <th>Tweet Count</th>
+                <th>Start Time</th>
+                <th>Stop Time</th>
+                <th>Stop/Delete</th>
+            </thead>
+            <tbody>
+                {% for stream in streams %}
+                <tr>
+                    <td>{{stream.stream_id}}</td>
+                    <td>{{stream.name}}</td>
+                    <td>{{stream.count}}</td>
+                    <td>{{stream.start_time}}</td>
+                    <td>{{stream.stop_time}}</td>
+                    <td>Delete</td>                
+                </tr>
+                {% empty %}
+                </tr>
+                    <td colspan=6>You don't have any streams on stored!</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table> 
     {% if form.errors %}
         <p style="color: red;">
             Please correct the error{{ form.errors|pluralize }} below.

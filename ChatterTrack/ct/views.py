@@ -152,7 +152,7 @@ def datasiftPushLog(request):
     
 
 @login_required(login_url='/ct/login/') 
-def track(request):
+def dashboard(request):
     form = None
     if (request.method == "POST"):
         form = TrackForm(request.POST)
@@ -221,7 +221,17 @@ def track(request):
             return createError("form received")
     else:
         form = TrackForm()
-    return render(request, "track.html", {'form' : form })
+    
+    results = []
+    trackedUsers = TrackedUser.objects.filter(user=Profile.objects.get(user=request.user))
+    
+    for tu in trackedUsers:            
+        streams = Stream.objects.filter(tracked_user=tu)
+        for stream in streams:
+            stream.count = len(Tweet.objects.filter(stream=stream))
+            results.append(stream)
+    
+    return render(request, "track.html", {'form' : form, "streams" : results })
 
 def twitter_login(request):
     
