@@ -42,6 +42,7 @@ class Tweet(models.Model):
     category = models.CharField(max_length=63)
     category_confidence = models.FloatField()
     time = models.DateTimeField(default=datetime.datetime.now(pytz.utc))
+    sentiment = models.FloatField()
     
     def __unicode__(self):
         return self.text

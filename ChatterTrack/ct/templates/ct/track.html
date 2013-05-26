@@ -2,11 +2,7 @@
 
 
 {% block title %}ChatterTrack - Tracking Chatter!{% endblock %}
-{% block includes %}
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <meta charset="utf-8"> 
-    <meta name="viewport" content="width=device-width">
-    
+{% block includes %}    
     <!-- CSS -->
     <!-- JS -->
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
@@ -14,41 +10,39 @@
 {% endblock %}
 
 {% block content %}
+    <div class="container">
+        <header class="site-header cf" role="banner">
+            <div class="site-logo">
+                <span style="color: #D9750B;">Chatter<span ><img src="{{ STATIC_URL }}ct/asset/twitter.png" width="45" height="45" /></span><span style="color: #D9750B;">Track<span>
+            </div>
+        </header>
     {% if form.errors %}
         <p style="color: red;">
             Please correct the error{{ form.errors|pluralize }} below.
         </p>
     {% endif %}
     
-    <form action="" method="post">
-        {% csrf_token %}
-        <div class="field">
-            {{ form.twitter_handle.errors }}
-            <label for="id_twitter_handle">Twitter Handle of the user you want to track:</label>
-            {{ form.twitter_handle }}
-        </div>
-        <div class="field">
-            {{ form.tracking_phrases.errors }}
-            <label for="id_tracking_phrases">Comma-separated list of phrases to track:</label>
-            {{ form.tracking_phrases }}
-        </div>
-        <div class="field">
-            {{ form.time_to_track.errors }}
-            <label for="id_time_to_track">Enter the number of minutes to track them for:</label>
-            {{ form.time_to_track }}
-        </div>
-        <input type="submit" value="Submit">
-    </form>
-    
+        <form action="" method="post">
+            {% csrf_token %}
+            <div class="field">
+                {{ form.twitter_handle.errors }}
+                <label for="id_twitter_handle">Twitter Handle of the user you want to track:</label>
+                {{ form.twitter_handle }}
+            </div><!--
+            <div class="field">
+                {{ form.tracking_phrases.errors }}
+                <label for="id_tracking_phrases">Comma-separated list of phrases to track:</label>
+                {{ form.tracking_phrases }}
+            </div>
+            <div class="field">
+                {{ form.time_to_track.errors }}
+                <label for="id_time_to_track">Enter the number of minutes to track them for:</label>
+                {{ form.time_to_track }}
+            </div>-->
+            <input type="submit" value="Submit">
+        </form>
+    </div>
 {% endblock %}
 
-{% block footer %}
-        <footer class="site-footer" role="contentinfo">
-            <div class="container">
-                A project from Northwestern University by
-                Bryan Lowry, Khalid Aziz, and Liu Liu,
-               .
-            </div>
-        </footer>
-{% endblock %}
+
 

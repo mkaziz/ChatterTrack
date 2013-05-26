@@ -58,7 +58,7 @@ def analyzeStream(request):
     results = { "politics" : 0, "sports" : 0, "technology" : 0, "food" : 0, "business" : 0, "healthy-living" : 0, "arts" : 0, "entertainment" : 0, "science" : 0, "none" : 0 }
     
     for tweet in tweets:
-        if tweet.category_confidence > float(categoryConfidence):
+        if tweet.category_confidence > float(categoryConfidence) and len(tweet.text) > 80 and tweet.text[0] != "@":
             results[tweet.category] = results[tweet.category] + 1
         else:
             results["none"] = results["none"] + 1
@@ -89,7 +89,8 @@ def getStreamedTweets(request):
     
     for tweet in tweets:
         
-        results.append( { "text" : tweet.text, "category" : tweet.category, "confidence" : tweet.category_confidence })
+         if len(tweet.text) > 80 and tweet.text[0] != "@":
+            results.append( { "text" : tweet.text, "category" : tweet.category, "confidence" : tweet.category_confidence })
         
     response_data = { "success" : True, "results" : results }
     return HttpResponse(content=json.dumps(response_data), content_type="application/json")
@@ -115,7 +116,7 @@ def datasiftLog(request):
                 
                 #log.debug(knightCategories)
                 
-                tweet = Tweet(stream=stream, text=tweetText, category=knightCategories[0][0], category_confidence=knightCategories[0][1])
+                tweet = Tweet(stream=stream, text=tweetText, category=knightCategories[0][0], category_confidence=knightCategories[0][1], sentiment=interaction["salience"]["content"]["sentiment"])
                 
                 tweet.save()
                 
@@ -159,7 +160,7 @@ def track(request):
             
             cd = form.cleaned_data
             twitterHandle = cd["twitter_handle"]
-            timeToTrack = cd["time_to_track"]
+            timeToTrack = 0 #cd["time_to_track"]
             
             profile = Profile.objects.get(user=request.user)
             
