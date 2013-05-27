@@ -187,7 +187,7 @@ def datasiftPushLog(request):
     return HttpResponse(content=json.dumps(logs), content_type="application/json")
     
 
-@login_required(login_url='/ct/login/') 
+@login_required(login_url='/ct/login/?next=/ct/dashoard/') 
 def dashboard(request):
     form = None
     if (request.method == "POST"):
@@ -325,4 +325,4 @@ def twitter_authenticated(request):
     auth_login(request, user)
     request.session["screen_name"] = access_token['screen_name']
 
-    return HttpResponseRedirect('/ct/')
+    return HttpResponseRedirect('/ct/dashboard/')

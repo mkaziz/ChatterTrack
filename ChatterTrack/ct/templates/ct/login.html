@@ -13,11 +13,26 @@
 {% endblock %}
 
 {% block content %}
-    <form action="/ct/twitter_login/" method="post">
-        {% csrf_token %}
-        Enter your Twitter username: 
-        <input type="text" name="username" placeholder="eg: EmWatson" /><br />
-    <input type="submit" value="Authenticate" />
+    <div class="container">
+        
+        <header class="site-header cf" role="banner">
+            <div class="site-logo">
+                <span style="color: #D9750B;">Chatter<span ><img src="{{ STATIC_URL }}ct/asset/twitter.png" width="45" height="45" /></span><span style="color: #D9750B;">Track<span>
+            </div>
+        </header>
+        
+        <h2>Authentication: </h2>
+        <p>You must authenticate with your twitter account to use the dashboard:</p>
+        
+        <form action="/ct/twitter_login/" method="post">
+            {% csrf_token %}
+            Enter your Twitter username: 
+            <input type="text" name="username" placeholder="eg: EmWatson" />
+            <br /><br />
+            <input type="submit" value="Authenticate" />
+        </form>
+        
+    </div>
 {% endblock %}
 
 {% block footer %}
