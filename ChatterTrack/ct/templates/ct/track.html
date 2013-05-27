@@ -21,6 +21,7 @@
         <h2>Current Streams: </h2>
         <table class="stream-table">
             <thead>
+                <th>Picture</th>
                 <th>Stream Name</th>
                 <th>Tweet Count</th>
                 <th>Start Time</th>
@@ -30,6 +31,17 @@
             <tbody>
                 {% for stream in streams %}
                 <tr>
+                    <td>
+                        <form action="/ct/picture/" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{ image_upload_form.stream_id.errors }}
+                            {{ image_upload_form.stream_id }}
+                            {{ image_upload_form.image }}
+                            {{ image_upload_form.image.errors }}
+                            <input type="text" name="stream_id" value="{{stream.stream_id}}" style="display:none;">
+                            <input type="file" onchange="this.form.submit()" /> 
+                        </form>
+                    </td>
                     <td>{{stream.name}}</td>
                     <td>{{stream.count}}</td>
                     <td>{{stream.start_time}}</td>
@@ -57,9 +69,9 @@
         <form action="" method="post">
             {% csrf_token %}
             <div class="field">
-                {{ form.twitter_handle.errors }}
+                {{ track_form.twitter_handle.errors }}
                 <label for="id_twitter_handle">Twitter Handle of the user you want to track:</label>
-                {{ form.twitter_handle }}
+                {{ track_form.twitter_handle }}
             </div><!--
             <div class="field">
                 {{ form.tracking_phrases.errors }}

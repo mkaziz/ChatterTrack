@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from ct.models import *
-from ct.forms import TrackForm
+from ct.forms import *
 from ct.tasks import track as track_task
 
 # python imports
@@ -187,14 +187,14 @@ def datasiftPushLog(request):
     return HttpResponse(content=json.dumps(logs), content_type="application/json")
     
 
-@login_required(login_url='/ct/login/?next=/ct/dashoard/') 
+@login_required(login_url='/ct/login/?next=/ct/dashboard/') 
 def dashboard(request):
-    form = None
+    trackForm = None
     if (request.method == "POST"):
-        form = TrackForm(request.POST)
-        if form.is_valid():
+        trackForm = TrackForm(request.POST)
+        if trackForm.is_valid():
             
-            cd = form.cleaned_data
+            cd = trackForm.cleaned_data
             twitterHandle = cd["twitter_handle"]
             timeToTrack = 0 #cd["time_to_track"]
             
@@ -258,7 +258,7 @@ def dashboard(request):
             log.debug(subscription.get_status())
             log.error(sub.name + " id: " + sub.stream_id + " hash: " + sub.stream_hash)
             
-    form = TrackForm()
+    trackForm = TrackForm()
     
     results = []
     trackedUsers = TrackedUser.objects.filter(user=Profile.objects.get(user=request.user))
@@ -269,7 +269,7 @@ def dashboard(request):
             stream.count = len(Tweet.objects.filter(stream=stream))
             results.append(stream)
     
-    return render(request, "track.html", {'form' : form, "streams" : results })
+    return render(request, "track.html", {'track_form' : trackForm, "streams" : results, "upload_image_form" :  UploadImageForm()})
 
 def twitter_login(request):
     
