@@ -74,6 +74,29 @@ def deleteStream(request):
         stream.delete()
     except Stream.DoesNotExist:
         return createError("Stream: "+ streamId +" does not exist")
+    
+    log.debug("deleting: " + stream.stream_id)
+    
+    response_data = { "success" : True }
+    return HttpResponse(content=json.dumps(response_data), content_type="application/json")
+    
+def stopStream(request):
+    streamId = request.GET.get("stream_id","")
+    
+    stream = None
+    try:
+        stream = Stream.objects.get(stream_id=streamId)
+        stream.end_time = datetime.now()
+        stream.save()
+    except Stream.DoesNotExist:
+        return createError("Stream: "+ streamId +" does not exist")
+    
+    dsUser = datasift.User(settings.DATASIFT["username"], settings.DATASIFT["api_key"])
+    dsStream = dsUser.get_push_subscription(stream.stream_id)
+    log.debug("stopping: " + stream.stream_id)
+    
+    # deleting datasift stream, not local stream object
+    dsStream.delete()
         
     response_data = { "success" : True }
     return HttpResponse(content=json.dumps(response_data), content_type="application/json")
@@ -114,7 +137,9 @@ def datasiftLog(request):
     
     if data != json.loads("{}"):        
         try:
+            
             stream = Stream.objects.get(stream_id=data["id"])
+            #log.debug("Got new batch of tweets for: " + stream.name);
             for interaction in data["interactions"]:
                 if "deleted" in interaction.keys():
                     continue
@@ -128,8 +153,7 @@ def datasiftLog(request):
                 
                 #log.debug(knightCategories)
                 
-                tweet = Tweet(stream=stream, text=tweetText, category=knightCategories[0][0], category_confidence=knightCategories[0][1], sentiment=interaction["salience"]["content"]["sentiment"])
-                
+                tweet = Tweet(stream=stream, text=tweetText, category=knightCategories[0][0], category_confidence=knightCategories[0][1], sentiment=interaction["salience"]["content"]["sentiment"] if "salience" in interaction.keys() else 0.0)
                 tweet.save()
                 
         except Stream.DoesNotExist:
@@ -181,20 +205,24 @@ def dashboard(request):
             
             trackedUsersString = ""
             count = 0
-            listOfFollowersObj = twitterObj.followers.ids(screen_name=twitterHandle)
             
-            while True:
-                listOfFollowers = listOfFollowersObj["ids"]            
+            try:
+                listOfFollowersObj = twitterObj.followers.ids(screen_name=twitterHandle)
+                
+                while True:
+                    listOfFollowers = listOfFollowersObj["ids"]            
+                
+                    for follower in listOfFollowers:
+                        trackedUsersString += str(follower) + ","
+                        
+                    if listOfFollowersObj["next_cursor"] != 0 and count < 5: 
+                        listOfFollowersObj = twitterObj.followers.ids(screen_name=twitterHandle,cursor=listOfFollowersObj["next_cursor"])
+                        count = count + 1
+                    else:
+                        break
+            except TwitterHTTPError as te:
+                return createError("Twitter API Error: " + str(te)) 
             
-                for follower in listOfFollowers:
-                    trackedUsersString += str(follower) + ","
-                    
-                if listOfFollowersObj["next_cursor"] != 0 and count < 5: 
-                    listOfFollowersObj = twitterObj.followers.ids(screen_name=twitterHandle,cursor=listOfFollowersObj["next_cursor"])
-                    count = count + 1
-                else:
-                    break
-                    
             #log.debug(len(trackedUsersString))
             trackedUsersString = trackedUsersString[:-1] # get rid of last comma
             
@@ -230,9 +258,7 @@ def dashboard(request):
             log.debug(subscription.get_status())
             log.error(sub.name + " id: " + sub.stream_id + " hash: " + sub.stream_hash)
             
-            return createError("form received")
-    else:
-        form = TrackForm()
+    form = TrackForm()
     
     results = []
     trackedUsers = TrackedUser.objects.filter(user=Profile.objects.get(user=request.user))

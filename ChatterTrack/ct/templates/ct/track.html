@@ -21,7 +21,6 @@
         <h2>Current Streams: </h2>
         <table class="stream-table">
             <thead>
-                <th>Stream Id</th>
                 <th>Stream Name</th>
                 <th>Tweet Count</th>
                 <th>Start Time</th>
@@ -31,20 +30,19 @@
             <tbody>
                 {% for stream in streams %}
                 <tr>
-                    <td>{{stream.stream_id}}</td>
                     <td>{{stream.name}}</td>
                     <td>{{stream.count}}</td>
                     <td>{{stream.start_time}}</td>
                     <td>{{stream.end_time}}</td>
                     {% if stream.end_time %}
-                        <td><button onclick="dashboard.ajax.deleteStream({{stream.stream_id}})">Delete</button></td>
+                        <td><button onclick="dashboard.ajax.deleteStream('{{stream.stream_id}}')">Delete</button></td>
                     {% else %}
-                        <td><button onclick="dashboard.ajax.stopStream({{stream.stream_id}})">Stop</button></td>
+                        <td><button onclick="dashboard.ajax.stopStream('{{stream.stream_id}}')">Stop</button></td>
                     {% endif %}                    
                 </tr>
                 {% empty %}
                 </tr>
-                    <td colspan=6>You don't have any streams on stored!</td>
+                    <td colspan=5>You don't have any streams on stored!</td>
                 </tr>
                 {% endfor %}
             </tbody>
