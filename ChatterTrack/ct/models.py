@@ -8,13 +8,15 @@ class Profile(models.Model):
     oauth_token = models.CharField(max_length=200)
     oauth_secret = models.CharField(max_length=200)
 
-class TrackedUser(models.Model):
+class TrackedUser(models.Model): 
     twitter_id = models.CharField(max_length=60)
     twitter_id.primary_key = True
     screen_name = models.CharField(max_length=70)
     user = models.ForeignKey(Profile)
     track_until = models.DateTimeField(default=datetime.datetime.now(pytz.utc))
     followers_list = models.TextField()
+    image = models.ImageField(upload_to="/")
+    image.null = True 
     
     def __unicode__(self):
         return self.screen_name
