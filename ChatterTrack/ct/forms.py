@@ -11,3 +11,7 @@ class UploadImageForm(forms.Form):
     stream_id = forms.CharField(max_length=100)
     stream_id.widget.attrs["style"]="display:none;"
     
+    def __init__(self,stream_id,*args,**kwrds):
+        super(UploadImageForm,self).__init__(*args,**kwrds)
+        self.fields['stream_id'].widget.attrs["value"]= stream_id
+    

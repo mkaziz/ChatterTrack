@@ -32,14 +32,14 @@
                 {% for stream in streams %}
                 <tr>
                     <td>
-                        <form action="/ct/picture/" method="post" enctype="multipart/form-data">
+                        <form action="/ct/uploadImage/" method="post" enctype="multipart/form-data">
                             {% csrf_token %}
-                            {{ image_upload_form.stream_id.errors }}
-                            {{ image_upload_form.stream_id }}
-                            {{ image_upload_form.image }}
-                            {{ image_upload_form.image.errors }}
-                            <input type="text" name="stream_id" value="{{stream.stream_id}}" style="display:none;">
-                            <input type="file" onchange="this.form.submit()" /> 
+                            {{ stream.uploadImageForm.stream_id.errors }}
+                            {{ stream.uploadImageForm.stream_id }}
+                            {{ stream.uploadImageForm.image }}
+                            {{ stream.uploadImageForm.image.errors }}
+                            <!--<input type="text" name="stream_id" value="{{stream.stream_id}}" style="display:none;">
+                            <input type="file" onchange="this.form.submit()" /> -->
                         </form>
                     </td>
                     <td>{{stream.name}}</td>

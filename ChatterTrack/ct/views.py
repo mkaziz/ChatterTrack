@@ -187,6 +187,27 @@ def datasiftPushLog(request):
     return HttpResponse(content=json.dumps(logs), content_type="application/json")
     
 
+def uploadImage(request):
+    uploadImageForm = None
+    if (request.method == "POST"):
+        uploadImageForm = UploadImageForm(request.POST, request.FILES)
+        log.debug("uploadImage - method is post, errors: " + str(uploadImageForm.errors))
+        if uploadImageForm.is_valid():
+            log.debug("uploadImage - form is valid")
+            cd = uploadImageForm.cleaned_data
+            streamId = cd["stream_id"]
+            image = cd["stream_id"]
+            
+            stream = Stream.objects.get(stream_id=streamId)
+            user = stream.user
+            
+            user.image = image
+            user.save()
+            k
+            
+            
+    return createError("Uploaded")
+
 @login_required(login_url='/ct/login/?next=/ct/dashboard/') 
 def dashboard(request):
     trackForm = None
@@ -267,9 +288,11 @@ def dashboard(request):
         streams = Stream.objects.filter(tracked_user=tu)
         for stream in streams:
             stream.count = len(Tweet.objects.filter(stream=stream))
+            stream.uploadImageForm = UploadImageForm(stream.stream_id)
             results.append(stream)
+            log.debug(stream.name)
     
-    return render(request, "track.html", {'track_form' : trackForm, "streams" : results, "upload_image_form" :  UploadImageForm()})
+    return render(request, "track.html", {'track_form' : trackForm, "streams" : streams })
 
 def twitter_login(request):
     

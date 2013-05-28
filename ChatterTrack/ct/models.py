@@ -15,8 +15,6 @@ class TrackedUser(models.Model):
     user = models.ForeignKey(Profile)
     track_until = models.DateTimeField(default=datetime.datetime.now(pytz.utc))
     followers_list = models.TextField()
-    image = models.ImageField(upload_to="/")
-    image.null = True 
     
     def __unicode__(self):
         return self.screen_name
@@ -37,6 +35,8 @@ class Stream(models.Model):
     start_time = models.DateTimeField(default=datetime.datetime.now(pytz.utc))
     end_time = models.DateTimeField(default=None)
     end_time.null = True 
+    image = models.ImageField(upload_to="/")
+    image.null = True 
     
     def __unicode__(self):
         return self.name
