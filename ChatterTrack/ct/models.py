@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 import datetime, pytz
 
+from django.conf import settings
+
 # Create your models here.
 class Profile(models.Model):
     user = models.ForeignKey(User)
@@ -35,7 +37,7 @@ class Stream(models.Model):
     start_time = models.DateTimeField(default=datetime.datetime.now(pytz.utc))
     end_time = models.DateTimeField(default=None)
     end_time.null = True 
-    image = models.ImageField(upload_to="media/")
+    image = models.ImageField(upload_to=settings.MEDIA_ROOT)
     image.null = True 
     
     def __unicode__(self):

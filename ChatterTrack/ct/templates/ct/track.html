@@ -32,6 +32,9 @@
                 {% for stream in streams %}
                 <tr>
                     <td>
+                        {% if stream.image  %}
+                            <img class="twitter-icon" src="{{ MEDIA_URL }}{{stream.image}}" />
+                        {% endif %}
                         <form action="/ct/uploadImage/" method="post" enctype="multipart/form-data">
                             {% csrf_token %}
                             {{ stream.uploadImageForm.stream_id.errors }}
