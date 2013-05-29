@@ -35,7 +35,7 @@ class Stream(models.Model):
     start_time = models.DateTimeField(default=datetime.datetime.now(pytz.utc))
     end_time = models.DateTimeField(default=None)
     end_time.null = True 
-    image = models.ImageField(upload_to="/")
+    image = models.ImageField(upload_to="media/")
     image.null = True 
     
     def __unicode__(self):
