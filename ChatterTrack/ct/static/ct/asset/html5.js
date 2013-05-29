@@ -14,7 +14,7 @@ $(document).ready( function () {
 
         $('.p9').click(function(){ 
             
-            ChatterTrack.ajaxFunctions.getGraph("d21256f37601d2800b0b9604f0e94e1e",0.8);
+            ChatterTrack.ajaxFunctions.getGraph("d21256f37601d2800b0b9604f0e94e1e",0.8); 
             return false;
         });
        

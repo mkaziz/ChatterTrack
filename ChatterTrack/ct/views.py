@@ -37,7 +37,7 @@ def createError(msg):
 def index(request):
     
     profileName = request.GET.get("profile","")
-    
+     
     if (profileName == ""):
         return createError("No Profile Name passed as parameter")
     
@@ -223,9 +223,6 @@ def uploadImage(request):
             stream = Stream.objects.get(stream_id=streamId)
             stream.image.save(stream.stream_hash, image)
 
-            
-            
-            
     return dashboard(request)
 
 @login_required(login_url='/ct/login/?next=/ct/dashboard/') 

@@ -26,14 +26,14 @@
                 <th>Tweet Count</th>
                 <th>Start Time</th>
                 <th>Stop Time</th>
-                <th>Stop/Delete</th>
+                <th>Stop/Delete</th> 
             </thead>
             <tbody>
                 {% for stream in streams %}
                 <tr>
                     <td>
                         {% if stream.image  %}
-                            <img class="twitter-icon" src="{{ MEDIA_URL }}{{stream.image}}" />
+                            <img class="twitter-icon" src="{{ MEDIA_URL }}{{stream.image.name}}" />
                         {% endif %}
                         <form action="/ct/uploadImage/" method="post" enctype="multipart/form-data">
                             {% csrf_token %}
