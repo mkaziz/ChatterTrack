@@ -75,13 +75,13 @@ def analyzeStream(request):
         
     tweets = Tweet.objects.filter(stream=stream)
     
-    results = { "politics" : 0, "sports" : 0, "technology" : 0, "food" : 0, "business" : 0, "healthy-living" : 0, "arts" : 0, "entertainment" : 0, "science" : 0, "none" : 0 }
+    results = { "name" : stream.name, "stream_id" : stream.stream_id, "categories" : { "politics" : 0, "sports" : 0, "technology" : 0, "food" : 0, "business" : 0, "healthy-living" : 0, "arts" : 0, "entertainment" : 0, "science" : 0, "none" : 0 }}
     
     for tweet in tweets:
         if tweet.category_confidence > float(categoryConfidence) and len(tweet.text) > 80 and tweet.text[0] != "@":
-            results[tweet.category] = results[tweet.category] + 1
+            results["categories"][tweet.category] = results["categories"][tweet.category] + 1 
         else:
-            results["none"] = results["none"] + 1
+            results["categories"]["none"] = results["categories"]["none"] + 1
         
     response_data = { "success" : True, "results" : results }
     return HttpResponse(content=json.dumps(response_data), content_type="application/json")
@@ -144,7 +144,7 @@ def getStreamedTweets(request):
     
     for tweet in tweets:
         
-         if len(tweet.text) > 80 and tweet.text[0] != "@":
+         if len(tweet.text) > 70 and tweet.text[0] != "@":
             results.append( { "text" : tweet.text, "category" : tweet.category, "confidence" : tweet.category_confidence })
         
     response_data = { "success" : True, "results" : results }
