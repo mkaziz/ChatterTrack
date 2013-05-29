@@ -89,6 +89,10 @@ img.i1 {
 #vizbox {
   display: none; width: 1100px; margin: 0 auto;
 }
+#word-count-container {
+  width: 800px; 
+  
+}
 .container {
   font-size: 8px;
 }
