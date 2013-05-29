@@ -13,7 +13,7 @@ $(document).ready( function () {
         });
 
         $('.p9').click(function(){ 
-            $('#name').hide().html("Rahm Emanuel's followers are talking about:").fadeIn();
+            
             ChatterTrack.ajaxFunctions.getGraph("d21256f37601d2800b0b9604f0e94e1e",0.8);
             return false;
         });
@@ -26,10 +26,9 @@ ChatterTrack = {
     
     ajaxFunctions : {
         
-        getGraph : function (streamId,confidence) {
-            
+        getGraph : function (name, streamId, confidence) {
             "use strict";
-            
+            $('#name').hide().html(name + "'s followers are talking about:").fadeIn();
             var jqxhr = $.get("http://ec2-54-244-189-248.us-west-2.compute.amazonaws.com/ct/analyzeStream/", {
                 "stream_id" : streamId,
                 "confidence" : confidence

@@ -23,16 +23,17 @@
             <h1>Listen to their<br />twitter followers.</h1>
             
             <div class="peoplebox" id="pp">
-                <a class="people p1" href="#pp"><img src="{{ STATIC_URL }}ct/image/elizabethwarren.jpg" style="border-radius: 100px;" width="80" height="80" border="0" />Elizabeth Warren</a>
-                <a class="people p2" href="#pp"><img src="{{ STATIC_URL }}ct/image/harryreid.jpg" style="border-radius: 100px;" width="80" height="80" border="0" />Harry Reid</a>
-                <a class="people p3" href="#pp"><img src="{{ STATIC_URL }}ct/image/johnboehner.jpg" style="border-radius: 100px;" width="80" height="80" border="0" />John Boehner</a>
-                <a class="people p4" href="#pp"><img src="{{ STATIC_URL }}ct/image/johnmaccain.jpg" style="border-radius: 100px;" width="80" height="80" border="0" />John Maccain</a>
-                <a class="people p5" href="#pp"><img src="{{ STATIC_URL }}ct/image/mikebloomberg.jpg" style="border-radius: 100px;" width="80" height="80" border="0" />Michael Bloomberg</a>
-                <a class="people p6" href="#pp"><img src="{{ STATIC_URL }}ct/image/nancypelosi.jpg" style="border-radius: 100px;" width="80" height="80" border="0" />Nancy Pelosi</a>
-                <a class="people p7" href="#pp"><img src="{{ STATIC_URL }}ct/image/obama.jpg" style="border-radius: 100px;" width="80" height="80" border="0" />Barack Obama</a>
-                <a class="people p8" href="#pp"><img src="{{ STATIC_URL }}ct/image/patquinn.jpg" style="border-radius: 100px;" width="80" height="80" border="0" />Pat Quinn</a>
-                <a class="people p9" href="#pp"><img src="{{ STATIC_URL }}ct/image/rahmemanuel.jpg" style="border-radius: 100px;" width="80" height="80" border="0" />Rahm Emanuel</a>
-                <a class="people p10" href="#pp"><img src="{{ STATIC_URL }}ct/image/randpaul.jpg" style="border-radius: 100px;" width="80" height="80" border="0" />Rand Paul</a>
+                
+                {% for stream in streams %}
+                    {% if stream.image %}
+                        <a class="people" href="#pp"><img src="{{ MEDIA_URL }}{{stream.image}}" style="border-radius: 100px;" width="80" height="80" border="0" onclick="ChatterTrack.ajaxFunctions.getGraph('{{stream.name}}','{{stream.stream_id}}',0.8);"/>{{stream.name}}</a> 
+                    {% else %}
+                        <a class="people" href="#pp"><img src="{{ STATIC_URL }}ct/asset/twitter.png" style="border-radius: 100px;" width="80"height="80" border="0" onclick="ChatterTrack.ajaxFunctions.getGraph('{{stream.name}}','{{stream.stream_id}}',0.8);"/>{{stream.name}}</a> 
+                    {% endif %}
+                {% empty %}
+                <p>This profile has no recorded streams</p>
+                {% endfor %}
+
             </div>
             
         </div><!-- end site-promo -->

@@ -37,7 +37,7 @@ position: relative; border: 3px solid #222;
 border: 3px solid #DF7401;
 }
 .people:hover img {
-  width: 90px; height: 90px; top: -5px; 
+  width: 90px; height: 90px; top: -5px;  
 }
 .peoplebox {
   float: left; margin-left: 75px; width: 1000px; margin-bottom: 30px; 

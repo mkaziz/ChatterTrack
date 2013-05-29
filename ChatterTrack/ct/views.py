@@ -35,8 +35,28 @@ def createError(msg):
     return HttpResponseBadRequest(content=json.dumps(response_data), content_type="application/json")
 
 def index(request):
-    response_data = { "error" : -1, "message" : "test" }
-    return render(request, "index.html")
+    
+    profileName = request.GET.get("profile","")
+    
+    if (profileName == ""):
+        return createError("No Profile Name passed as parameter")
+    
+    try:
+        profile = Profile.objects.get(user=User.objects.get(username=profileName))
+    except Profile.DoesNotExist:
+        return createError("Twitter profile does not exist for user: " + profileName)
+    except User.DoesNotExist:
+        return createError("Invalid Profile name: " + profileName)
+        
+    trackedUsers = TrackedUser.objects.filter(user=profile)
+    
+    results = []
+    for tu in trackedUsers:
+        streams = Stream.objects.filter(tracked_user=tu)
+        for stream in streams:
+            results.append(stream)
+     
+    return render(request, "index.html", {"streams" : results })
   #return HttpResponse(content=json.dumps(response_data), content_type="application/json")
 
 def login(request):
@@ -206,7 +226,7 @@ def uploadImage(request):
             
             
             
-    return createError("Uploaded")
+    return dashboard(request)
 
 @login_required(login_url='/ct/login/?next=/ct/dashboard/') 
 def dashboard(request):
