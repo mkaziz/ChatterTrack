@@ -96,15 +96,37 @@ ChatterTrack = {
         
         getTweetsWithWord : function (name, category, streamId, confidence, word) {
             //ChatterTrack.clearChart($('#word-count-container'));
-            var jqxhr = $.get("http://ec2-54-244-189-248.us-west-2.compute.amazonaws.com/ct/getStreamedTweetsWithWord/", {
+            var jqxhr = $.get("http://ec2-54-244-189-248.us-west-2.compute.amazonaws.com/ct/getTweetsWithWord/", {
                 "stream_id" : streamId,
                 "category_confidence" : confidence,
-                "category" : category,
+                "category" : category, 
                 "word" : word
             }, ChatterTrack.ajaxFunctions.handleTweetsWithWord(name, category, word)).error(function () {
                     alert("Oops! Unable to fetch word counts.");
                 });
             
+        },
+        
+        handleTweetsWithWord : function (name,category,word) {
+          
+            return function (data) {
+                
+                $("#tweets").html("");
+                
+                var tweets = data["results"];
+                var htmlString = "<h3>" + name + " - " + category + " - " + word + "</h3>"; 
+                
+                htmlString += "<ul>"
+                
+                for (i = 0; i < tweets.length; i++) {
+                    htmlString += "<li>"
+                    htmlString += tweets[i]["text"];
+                    htmlString += "</li>";
+                }
+                htmlString += "</ul>";
+                
+                $("#tweets").html(htmlString);
+            }
         },
         
         updateGraph : function (data) {
@@ -211,7 +233,7 @@ $(document).ready( function () {
     wordCountChart = $('#word-count-container').highcharts();
     
     wordCountChart.options.plotOptions.column.events.click = function (e) {  
-        ChatterTrack.ajaxFunctions.getTweetsWithWord(e.point.series.name, e.point.category.toLowerCase(), e.point.series.stream_id, 0.75, e.point.category.toLowerCase());
+        ChatterTrack.ajaxFunctions.getTweetsWithWord(e.point.series.name, e.point.series.category.toLowerCase(), e.point.series.stream_id, 0.75, e.point.category.toLowerCase());
         // last param is word
     };  
     
