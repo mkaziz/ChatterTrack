@@ -75,7 +75,7 @@ def analyzeStream(request):
         
     tweets = Tweet.objects.filter(stream=stream)
     
-    results = { "name" : stream.name, "stream_id" : stream.stream_id, "categories" : { "politics" : 0, "sports" : 0, "technology" : 0, "food" : 0, "business" : 0, "healthy-living" : 0, "arts" : 0, "entertainment" : 0, "science" : 0, "none" : 0 }}
+    results = { "name" : stream.name, "stream_id" : stream.stream_id, "categories" : { "politics" : 0, "sports" : 0, "science-technology" : 0, "food" : 0, "business" : 0, "healthy-living" : 0, "arts" : 0, "entertainment" : 0, "science" : 0, "other" : 0, "education" : 0, "religion" : 0, "none" : 0 }}
     
     for tweet in tweets:
         if tweet.category_confidence > float(categoryConfidence) and len(tweet.text) > 40 and tweet.text[0] != "@":
@@ -182,7 +182,7 @@ def getStreamedTweets(request):
             results.append( { "text" : tweet.text, "category" : tweet.category, "confidence" : tweet.category_confidence })
         
     response_data = { "success" : True, "results" : results }
-    log.debug(response_data)
+    #log.debug(response_data)
     return HttpResponse(content=json.dumps(response_data), content_type="application/json")
 
 @csrf_exempt
@@ -210,7 +210,6 @@ def datasiftLog(request):
                 
                 tweet = Tweet(stream=stream, text=tweetText, category=knightCategories[0][0], category_confidence=knightCategories[0][1], sentiment=interaction["salience"]["content"]["sentiment"] if "salience" in interaction.keys() else 0.0)
                 tweet.save()
-                
         except Stream.DoesNotExist:
             log.error("Received interactions for a stream that's not in the database! id: " + data["id"] + " hash: " + data["hash"])
             pass

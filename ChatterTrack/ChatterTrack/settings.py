@@ -15,7 +15,7 @@ import djcelery
 djcelery.setup_loader()
 
 # Datasift settings
-DATASIFT = { "username" : "bryanlowry12", "api_key" : "648c3cd0ebbb02690a4375e8df6d1848" }
+DATASIFT = { "username" : "kaziz2", "api_key" : "3f8132364519d67f511662258d643b3e" }
 
 BROKER_URL = "amqp://guest:guest@localhost:5672//"
 
