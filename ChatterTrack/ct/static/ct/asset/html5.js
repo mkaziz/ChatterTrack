@@ -96,6 +96,7 @@ ChatterTrack = {
         
         getTweetsWithWord : function (name, category, streamId, confidence, word) {
             //ChatterTrack.clearChart($('#word-count-container'));
+
             var jqxhr = $.get("http://ec2-54-244-189-248.us-west-2.compute.amazonaws.com/ct/getTweetsWithWord/", {
                 "stream_id" : streamId,
                 "category_confidence" : confidence,
@@ -126,6 +127,8 @@ ChatterTrack = {
                 htmlString += "</ul>";
                 
                 $("#tweets").html(htmlString);
+                $('html, body').animate({scrollTop:$('#pp').offset().top}, 700);
+                //scroll to tweets
             }
         },
         
@@ -215,13 +218,15 @@ $(document).ready( function () {
             $('.people').removeClass('highlight');  
             $(this).addClass('highlight');
             $('#vizbox').fadeIn();
-            $('html, body').delay(600).animate({scrollTop:$(this.hash).offset().top}, 500);
+            $('html, body').delay(600).animate({scrollTop:$('#pp').offset().top}, 700);
+            return false;
         });
     });  
     
     ChatterTrack.createHighChart($('#container'));
     categoryChart = $('#container').highcharts();
     categoryChart.options.plotOptions.column.events.click = function (e) {  
+        $('html, body').animate({scrollTop:$('#highcharts-3').offset().top}, 700);
         ChatterTrack.ajaxFunctions.getTweets(e.point.series.name, e.point.category.toLowerCase(), e.point.series.stream_id, 0.75);
     }; 
     
@@ -232,6 +237,7 @@ $(document).ready( function () {
     wordCountChart = $('#word-count-container').highcharts();
     
     wordCountChart.options.plotOptions.column.events.click = function (e) {  
+        
         ChatterTrack.ajaxFunctions.getTweetsWithWord(e.point.series.name, e.point.series.category.toLowerCase(), e.point.series.stream_id, 0.75, e.point.category.toLowerCase());
         // last param is word
     };
