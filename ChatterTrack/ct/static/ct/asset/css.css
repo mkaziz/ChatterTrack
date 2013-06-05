@@ -21,8 +21,8 @@
 	float: left; width: 500px; height:500px;
 }
 .people {
-   width: 95px; height: 80px; display: block;
-  color: #fff; margin-bottom: 8px; float: left; font-size: 10px;
+   width: 95px; height: 80px; display: inline-block;
+  color: #fff; margin-bottom: 8px; font-size: 10px;
 }
 .people:hover, .people:focus {
   text-decoration: none;
@@ -37,7 +37,7 @@ position: relative; border: 3px solid #222;
 border: 3px solid #DF7401;
 }
 .people:hover img {
-  width: 90px; height: 90px; top: -5px;   
+border: 3px solid #DF7401;   
 }
 .peoplebox {
   float: left; margin-left: 75px; width: 1000px; margin-bottom: 30px; 
@@ -89,6 +89,10 @@ img.i1 {
 #vizbox {
   display: none; width: 1100px; margin: 0 auto;
 }
+#word-count-container {
+  width: 800px; 
+  
+}
 .container {
   font-size: 8px;
 }
@@ -103,4 +107,17 @@ img.i1 {
   margin-left: 80px; background-color: #DF7401; display: block; width: 100px; height: 40px; color: #ffffff; 
   float: left; margin-right: 20px; 
   vertical-align: middle; border-radius: 2px; line-height: 40px;
+}
+#tweets {
+  float: left; text-align: left; width: 240px; font-size: 12px; 
+  margin: 0 auto; background-color: #EFEFFB;
+}
+#tweets h3 {
+  padding: 5px; background-color: #E1E1EF;
+}
+#tweets ul {
+  padding: 10px; list-style-type: none;
+}
+#tweets li {
+  list-style-type: none; padding-bottom: 24px;
 }

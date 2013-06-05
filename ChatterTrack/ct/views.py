@@ -80,6 +80,8 @@ def analyzeStream(request):
     for tweet in tweets:
         if tweet.category_confidence > float(categoryConfidence) and len(tweet.text) > 40 and tweet.text[0] != "@":
             results["categories"][tweet.category] = results["categories"][tweet.category] + 1 
+            if tweet.category == "technology":
+                log.debug(str(tweet.category_confidence) + " " +tweet.text + " " + str(categoryConfidence)) 
         else:
             results["categories"]["none"] = results["categories"]["none"] + 1
         
@@ -120,12 +122,44 @@ def stopStream(request):
         
     response_data = { "success" : True }
     return HttpResponse(content=json.dumps(response_data), content_type="application/json")
+
+def getTweetsWithWord(request):
+    
+    streamId = request.GET.get("stream_id","")
+    category = request.GET.get("category","")
+    word = request.GET.get("word","")
+    categoryConfidence = float(request.GET.get("category_confidence",0.0))
+    
+    stream = None
+    try:
+        stream = Stream.objects.get(stream_id=streamId)
+    except Stream.DoesNotExist:
+        return createError("Stream: "+ streamId +" does not exist")
+    
+    tweets = None
+    
+    if category!= "":
+        tweets = Tweet.objects.filter(stream=stream, category=category, category_confidence__gt=float(categoryConfidence), text__icontains=word)
+    else:
+        tweets = Tweet.objects.filter(stream=stream, category_confidence__gt=float(categoryConfidence), text__icontains=word)
+    
+    results = []
+    
+    for tweet in tweets:
         
+         if len(tweet.text) > 40 and tweet.text[0] != "@":
+            results.append( { "text" : tweet.text, "category" : tweet.category, "confidence" : tweet.category_confidence })
+        
+    response_data = { "success" : True, "results" : results }
+    log.debug(response_data)
+    return HttpResponse(content=json.dumps(response_data), content_type="application/json")
+
+
 def getStreamedTweets(request):
     
     streamId = request.GET.get("stream_id","")
     category = request.GET.get("category","")
-    categoryConfidence = request.GET.get("category_confidence",0.0)
+    categoryConfidence = float(request.GET.get("category_confidence",0.0))
     
     stream = None
     try:
@@ -148,6 +182,7 @@ def getStreamedTweets(request):
             results.append( { "text" : tweet.text, "category" : tweet.category, "confidence" : tweet.category_confidence })
         
     response_data = { "success" : True, "results" : results }
+    log.debug(response_data)
     return HttpResponse(content=json.dumps(response_data), content_type="application/json")
 
 @csrf_exempt
@@ -309,7 +344,7 @@ def dashboard(request):
             results.append(stream)
             #log.debug(stream.name)
     
-    return render(request, "track.html", {'track_form' : trackForm, "streams" : results })
+    return render(request, "track.html", {'track_form' : trackForm, "streams" : results, "twitter_handle" : request.session["screen_name"] })
 
 def twitter_login(request):
     
@@ -344,7 +379,7 @@ def twitter_authenticated(request):
     
     if resp['status'] != '200':
         raise Exception("Invalid response from Twitter.")
-
+ 
     access_token = dict(cgi.parse_qsl(content))
     
     try:
