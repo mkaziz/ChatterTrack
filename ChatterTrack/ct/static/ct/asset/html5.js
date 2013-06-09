@@ -115,7 +115,11 @@ ChatterTrack = {
                 $("#tweets").html("");
                 
                 var tweets = data["results"];
-                var htmlString = "<h3>" + name + " - " + category + " - " + word + "</h3>"; 
+                var htmlString = "<center><h3>";
+                htmlString += "Followers of: " + name;
+                htmlString += "<br/>Category: " + category;
+                htmlString += "<br/>Word: " + word; 
+                htmlString += "</h3></center>"; 
                 
                 htmlString += "<ul>"
                 
@@ -194,7 +198,7 @@ ChatterTrack = {
                 }
                 
                 chart.addSeries({
-                    name: name + " - " + category,
+                    name: name + ": " + category,
                     data: values 
                 }, false);
                 
