@@ -181,13 +181,13 @@ ChatterTrack = {
         
         },
         
-        getTweets : function (name, category, streamId, confidence) {
+        getTweets : function (name, category, streamId, confidence, color) {
             ChatterTrack.clearChart($('#word-count-container'));
             var jqxhr = $.get("http://ec2-54-244-189-248.us-west-2.compute.amazonaws.com/ct/getStreamedTweets/", {
                 "stream_id" : streamId,
                 "category_confidence" : confidence,
                 "category" : category
-            }, ChatterTrack.ajaxFunctions.updateWordCountGraph(name, category, streamId)).error(function () {
+            }, ChatterTrack.ajaxFunctions.updateWordCountGraph(name, category, streamId, color)).error(function () {
                     alert("Oops! Unable to fetch word counts.");
                 });  
             
@@ -274,7 +274,7 @@ ChatterTrack = {
             chart.series[chart.series.length-1].stream_id = data.results.stream_id;
         },
         
-        updateWordCountGraph : function (name, category, streamId) {
+        updateWordCountGraph : function (name, category, streamId, color) {
             
             return function (data) {
                 chart = $('#word-count-container').highcharts();
@@ -297,6 +297,7 @@ ChatterTrack = {
                 }
                 
                 chart.addSeries({
+                    color: color,
                     name: name + " - " + category,
                     data: values 
                 }, false);
@@ -330,7 +331,7 @@ $(document).ready( function () {
     categoryChart = $('#container').highcharts();
     categoryChart.options.plotOptions.column.events.click = function (e) {  
         $('html, body').animate({scrollTop:$('#highcharts-3').offset().top}, 700);
-        ChatterTrack.ajaxFunctions.getTweets(e.point.series.name, e.point.category.toLowerCase(), e.point.series.stream_id, 0.75);
+        ChatterTrack.ajaxFunctions.getTweets(e.point.series.name, e.point.category.toLowerCase(), e.point.series.stream_id, 0.75, e.point.series.color);
     }; 
     
     categoryChart.xAxis[0].categories = [ 'Business', 'Sports', 'Food', 'Politics', 'Entertainment', 'Science-Technology', 'Healthy-living', 'Education', 'Religion' ];
@@ -342,7 +343,7 @@ $(document).ready( function () {
     wordCountChart.options.plotOptions.column.events.click = function (e) {  
         
         ChatterTrack.ajaxFunctions.getTweetsWithWord(e.point.series.name, e.point.series.category.toLowerCase(), e.point.series.stream_id, 0.75, e.point.category.toLowerCase());
-        // last param is word
+        // second last param is word
     };
     wordCountChart.options.plotOptions.column.dataLabels.formatter = function() {
         return this.y;
